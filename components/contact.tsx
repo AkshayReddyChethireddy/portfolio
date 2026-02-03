@@ -33,7 +33,7 @@ export default function Contact() {
           className="underline underline-offset-4 hover:text-gray-900 dark:hover:text-white transition"
           href="mailto:example@gmail.com"
         >
-          akshayreddychethireddy15@gmail.com
+          akshayreddych1508@gmail.com
         </a>{" "}
         or send a message using the form below.
       </p>
