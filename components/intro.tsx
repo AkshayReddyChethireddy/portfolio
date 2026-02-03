@@ -33,7 +33,7 @@ export default function Intro() {
           className="relative rounded-2xl bg-white/80 p-1 shadow-xl backdrop-blur-md dark:bg-white/10"
         >
           <Image
-            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=368&h=368&q=100"
+            src="/akshay.png"
             alt="Akshay portrait"
             width={110}
             height={110}
