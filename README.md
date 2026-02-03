@@ -1,30 +1,54 @@
-[![Watch tutorial here](https://img.youtube.com/vi/sUKptmUVIBM/0.jpg)](https://youtu.be/sUKptmUVIBM)
+# Akshay Reddy Chethireddy — Developer Portfolio
 
-# [Watch video here](https://youtu.be/sUKptmUVIBM)
+A modern, responsive full-stack developer portfolio showcasing my projects, skills, and experience.  
+Built with a focus on clean UI, smooth animations, accessibility, and real-world engineering practices.
 
-## What you will learn
+🌐 **Live Demo:** https://your-vercel-url.vercel.app  
+📄 **Resume:** Available on the site
 
-- Latest Next.js 13 features
-- Next.js App Router
-- Next.js Server Actions
-- Client & Server Components
-- TypeScript (Beginner & Intermediate)
+---
+
+## 🚀 Tech Stack
+
+**Frontend**
+- React
+- Next.js (App Router)
+- TypeScript
 - Tailwind CSS
-- Context API
-- Advanced Animations with Framer Motion
-- React.Email & Resend
-- Custom React hooks
-- Fresh, modern UI design
-- Light & Dark mode
-- Responsive website
+- Framer Motion
 
-## Important
+**Backend / Server**
+- Next.js Server Actions
+- Resend (email delivery)
+- React Email
 
-If you want to be a professional developer, you have to know the fundamentals like JavaScript and CSS really well. I highly recommend you go through my [Professional JavaScript](https://bytegrad.com/courses/professional-javascript) and [Professional CSS](https://bytegrad.com/courses/professional-css) courses.
+**Tools & Platforms**
+- Git & GitHub
+- Vercel (deployment)
+- ESLint
+- PostCSS
 
-I'm close to releasing a complete React & Next.js course. Get on the email list to receive early-bird pricing: [link](https://email.bytegrad.com/).
+---
 
-## Setup
+## ✨ Features
 
-1. Add RESEND_API_KEY environment variable in .env.local
-2. In the send-email.ts action file, change the "to" email to your own email
+- Fully responsive design (mobile → desktop)
+- Smooth section transitions and animations
+- Glass-style animated navbar
+- Dark / light mode toggle
+- Contact form with email delivery
+- Accessible, semantic UI
+- Optimized for performance and SEO
+
+---
+
+## 📬 Contact Form
+
+The contact form uses **Next.js Server Actions** and **Resend** to send emails securely from the server.
+
+### Environment Variable Required
+
+Create a `.env.local` file (not committed):
+
+```env
+RESEND_API_KEY=your_resend_api_key_here
