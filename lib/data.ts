@@ -3,6 +3,7 @@ import { LuGraduationCap } from "react-icons/lu";
 import { CgWorkAlt } from "react-icons/cg";
 import bmsCloneImg from "@/public/bmsCloneImg.png";
 import skillSyncImg from "@/public/skillSyncImg.png";
+import repoAnalyzerImg from "@/public/repoAnalyzerImg.png";
 
 
 export const links = [
@@ -34,6 +35,21 @@ export const experiencesData = [
 ] as const;
 
 export const projectsData = [
+  {
+    title: "RepoAnalyzer",
+    description:
+      "An AI-powered GitHub repository analyzer that instantly understands codebases through architecture analysis, dependency mapping, and complexity metrics. Features an intelligent RAG-powered chat assistant to answer questions about any repository.",
+    tags: [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "RAG",
+      "OpenAI",
+      "REST APIs",
+    ],
+    imageUrl: repoAnalyzerImg,
+  },
   {
     title: "SkillSync",
     description:
