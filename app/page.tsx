@@ -512,16 +512,16 @@ TOTAL CASH: $139.32
         </motion.div>
       </section>
 
-      {/* ── ADDITIONAL PROJECTS (Carousel Showcase) ───────────────────────────── */}
+      {/* ── ADDITIONAL PROJECTS (Showcase Grid) ─────────────────────────────────── */}
       <section className="relative px-4 py-28 bg-black border-t border-white/5 z-20">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <span className="text-xs uppercase tracking-[0.2em] text-blue-500 font-bold">Complete Project Index</span>
-            <h2 className="text-3xl md:text-5xl font-extrabold uppercase tracking-tight mt-2">Production Pipelines</h2>
+            <span className="text-xs uppercase tracking-[0.2em] text-blue-500 font-bold">Systems Catalog</span>
+            <h2 className="text-3xl md:text-5xl font-extrabold uppercase tracking-tight mt-2">More Engineering Builds</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {projectsData.map((project, index) => (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {projectsData.slice(1).map((project, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 35 }}
@@ -532,22 +532,22 @@ TOTAL CASH: $139.32
               >
                 <div className="p-8">
                   <div className="flex justify-between items-start mb-4">
-                    <h3 className="text-2xl font-bold uppercase tracking-tight text-white">{project.title}</h3>
+                    <h3 className="text-xl font-bold uppercase tracking-tight text-white">{project.title}</h3>
                     <BsArrowUpRight className="text-gray-500 group-hover:text-blue-400 transition-all duration-300 transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                   </div>
-                  <p className="text-sm text-gray-400 font-light leading-relaxed mb-6">{project.description}</p>
+                  <p className="text-xs text-gray-400 font-light leading-relaxed mb-6 h-24 overflow-hidden">{project.description}</p>
                   
                   {/* Tech stack tags */}
                   <div className="flex flex-wrap gap-2">
                     {project.tags.map((tag, idx) => (
-                      <span key={idx} className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] font-mono text-gray-300">
+                      <span key={idx} className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[9px] font-mono text-gray-300">
                         {tag}
                       </span>
                     ))}
                   </div>
                 </div>
 
-                <div className="relative h-64 md:h-80 w-full overflow-hidden border-t border-white/5 bg-zinc-950">
+                <div className="relative h-48 md:h-64 w-full overflow-hidden border-t border-white/5 bg-zinc-950">
                   <Image
                     src={project.imageUrl}
                     alt={project.title}
