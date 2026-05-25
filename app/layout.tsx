@@ -5,13 +5,14 @@ import ActiveSectionContextProvider from "@/context/active-section-context";
 import Footer from "@/components/footer";
 import ThemeSwitch from "@/components/theme-switch";
 import ThemeContextProvider from "@/context/theme-context";
+import LenisProvider from "@/components/lenis-provider";
 import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Akshay's | PortFolio",
-  description: "A personal portfolio built to showcase my work, skills, and growth as a developer.",
+  title: "Akshay Reddy | Full-Stack AI Engineer Portfolio",
+  description: "Elite portfolio showcasing autonomous multi-agent systems, heavy-duty backend engineering, and luxury UI experiences.",
 };
 
 export default function RootLayout({
@@ -20,31 +21,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="!scroll-smooth">
+    <html lang="en" className="dark !scroll-smooth">
       <body
-        className={`${inter.className} bg-blue-50 text-gray-900 
-        relative pt-28 
-        sm:pt-36 dark:bg-gray-900
-      dark:text-gray-50 dark:text-opacity-90`}
+        className={`${inter.className} bg-black text-white relative pt-20 overflow-x-hidden no-scrollbar`}
       >
-        <div className="bg-[#5edff0] absolute 
-        top-[-6rem] -z-10 right-[11rem] h-[31.25rem] w-[31.25rem] 
-        rounded-full blur-[10rem] 
-        sm:w-[68.75rem] dark:bg-[#1a5252]"></div>
-        <div className="bg-[#a29adf] absolute 
-        top-[-1rem] -z-10 left-[-35rem] h-[31.25rem] w-[50rem] 
-        rounded-full blur-[10rem] 
-        sm:w-[68.75rem] md:left-[-33rem] lg:left-[-28rem] xl:left-[-15rem] 2xl:left-[-5rem] 
-        dark:bg-[#625d96]"></div>
+        {/* Subtle, premium metallic backdrop glows */}
+        <div className="bg-[#0f172a] absolute top-[-6rem] -z-10 right-[11rem] h-[31.25rem] w-[31.25rem] rounded-full blur-[12rem]"></div>
+        <div className="bg-[#1e1b4b] absolute top-[-1rem] -z-10 left-[-35rem] h-[31.25rem] w-[50rem] rounded-full blur-[12rem] md:left-[-33rem] lg:left-[-28rem] xl:left-[-15rem] 2xl:left-[-5rem]"></div>
 
         <ThemeContextProvider>
           <ActiveSectionContextProvider>
-            <Header />
-            {children}
-            <Footer />
-
-            <Toaster position="top-right" />
-            <ThemeSwitch />
+            <LenisProvider>
+              <Header />
+              <main className="min-h-screen">
+                {children}
+              </main>
+              <Footer />
+              <Toaster position="top-right" />
+              <ThemeSwitch />
+            </LenisProvider>
           </ActiveSectionContextProvider>
         </ThemeContextProvider>
       </body>

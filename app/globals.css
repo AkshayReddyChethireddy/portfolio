@@ -2,15 +2,112 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  --line-color: #e5e7eb;
+:root {
+  --background-hex: #000000;
+  --panel-hex: #0a0a0c;
+  --accent-blue: #0071e3; /* Apple cobalt blue */
+  --accent-purple: #8622ff; /* Elite purple */
+  --accent-teal: #38bdf8; /* Mulai cyan */
+  --text-primary: #f5f5f7; /* Apple white text */
+  --text-secondary: #86868b; /* Apple gray text */
+  --line-color: rgba(255, 255, 255, 0.08);
 }
 
-html.dark {
-  --line-color: rgba(255, 255, 255, 0.2);
+html, body {
+  background-color: var(--background-hex) !important;
+  color: var(--text-primary) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: auto !important; /* Managed by Lenis */
 }
 
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background-hex);
+}
+::-webkit-scrollbar-thumb {
+  background: #333336;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #444449;
+}
+
+/* Hide Scrollbar helper */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Lenis smooth scrolling requirement */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis-stopped {
+  overflow: hidden;
+}
+.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Glow effects & glassmorphism components */
+.apple-glass {
+  background: rgba(10, 10, 12, 0.75);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.apple-border {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* 3D and floating micro-animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(0.5deg); }
+}
+
+.floating-layer-1 {
+  animation: float 6s ease-in-out infinite;
+}
+.floating-layer-2 {
+  animation: float 7s ease-in-out infinite 1s;
+}
+.floating-layer-3 {
+  animation: float 8s ease-in-out infinite 2s;
+}
+
+/* Text Masking & Apple Shimmer */
+.apple-text-gradient {
+  background: linear-gradient(135deg, #ffffff 30%, #86868b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cobalt-glow {
+  box-shadow: 0 0 40px rgba(0, 113, 227, 0.15);
+}
+
+.teal-glow {
+  box-shadow: 0 0 50px rgba(56, 189, 248, 0.2);
+}
+
+/* Border black override for standard elements */
 .borderBlack {
-  @apply border;
-  border-color: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
