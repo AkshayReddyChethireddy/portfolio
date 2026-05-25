@@ -5,7 +5,6 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import Image from "next/image";
 import { 
   experiencesData, 
-  projectsData, 
   skillsData 
 } from "@/lib/data";
 import { useSectionInView } from "@/lib/hooks";
@@ -21,6 +20,10 @@ import {
   BsArrowUpRight 
 } from "react-icons/bs";
 import { HiMail } from "react-icons/hi";
+import mulaiImg from "@/public/mulaiImg.png";
+import repoAnalyzerImg from "@/public/repoAnalyzerImg.png";
+import skillSyncImg from "@/public/skillSyncImg.png";
+import bmsCloneImg from "@/public/bmsCloneImg.png";
 
 // ── SUBCOMPONENT: Custom Magnetic Button ────────────────────────────────────
 function MagneticButton({ 
@@ -64,6 +67,485 @@ function MagneticButton({
   );
 }
 
+// ── 3D EXPLODED PROJECT SPECIFICATIONS ───────────────────────────────────────
+const projectSpecifications = [
+  {
+    title: "Mulai BI System",
+    category: "Autonomous Multi-Agent Ingestion",
+    description: "An autonomous, stateful business intelligence pipeline powered by LangGraph. Ingests raw invoices, receipts, and text logs, coordinates vision-enabled extractors, performs outlier/anomaly detection, and persists results securely to PostgreSQL.",
+    themeColor: "blue",
+    layer1: {
+      label: "LAYER 01 // Multi-Agent Graph",
+      footer: "LangGraph stateful routing logic (Gemini 1.5 Flash)",
+      content: (
+        <div className="flex items-center justify-center gap-4 my-2">
+          <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-white/5 border border-white/10 text-center w-24">
+            <BsCpu className="text-lg text-purple-400 mb-1" />
+            <span className="text-[9px] font-mono font-bold">Supervisor</span>
+          </div>
+          <div className="flex flex-col gap-2">
+            <div className="px-3 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/30 text-[8px] font-mono text-blue-300">Extractor Agent</div>
+            <div className="px-3 py-1.5 rounded-lg bg-teal-500/10 border border-teal-500/30 text-[8px] font-mono text-teal-300">Insight Analyst</div>
+          </div>
+        </div>
+      )
+    },
+    layer2: {
+      label: "LAYER 02 // API Gateway",
+      pillText: "FastAPI",
+      footer: "Asynchronous routing endpoints with key validators",
+      content: (
+        <div className="flex flex-col justify-center my-2 font-mono text-[9px] text-gray-300 bg-black/40 p-2.5 rounded-lg border border-white/5 w-full">
+          <div className="text-teal-400">POST /api/v1/ingest</div>
+          <div className="text-gray-500">Headers: X-API-Key (Secure)</div>
+          <div className="text-purple-400 mt-1">class IngestionRun(BaseModel):</div>
+          <div className="pl-2 text-gray-400">report_id: str = UUID</div>
+          <div className="pl-2 text-gray-400">status: str = &quot;pending&quot;</div>
+        </div>
+      )
+    },
+    layer3: {
+      label: "LAYER 03 // DB & Persistence",
+      pillText: "SQLAlchemy ORM",
+      footer: "SQLAlchemy ORM + PostgreSQL connections pool",
+      content: (
+        <div className="flex items-center justify-center gap-6 my-2 text-[9px] font-mono text-center w-full">
+          <div className="p-2 border border-purple-500/20 bg-purple-500/5 rounded-lg">
+            <div className="font-bold text-purple-300">IngestionRuns</div>
+            <div className="text-[7px] text-gray-500">PK: report_id</div>
+          </div>
+          <span className="text-gray-500 text-sm">◀ 1:N ▶</span>
+          <div className="p-2 border border-blue-500/20 bg-blue-500/5 rounded-lg">
+            <div className="font-bold text-blue-300">SalesRecords</div>
+            <div className="text-[7px] text-gray-500">FK: report_id</div>
+          </div>
+        </div>
+      )
+    },
+    captions: [
+      {
+        category: "Centerpiece Project",
+        title: "Mulai BI System",
+        description: "An autonomous multi-agent pipeline designed to solve the unstructured enterprise sales data bottleneck. Ingests, processes, and persists receipts with self-healing databases."
+      },
+      {
+        category: "Orchestration & Routing",
+        title: "Multi-Agent State Machine",
+        description: "Managed by a central LangGraph Supervisor. Documents are intelligently assigned, parsed using visual extraction matrices, mathematically analyzed for outliers, and double-checked before database commit."
+      },
+      {
+        category: "Resilient Persistence",
+        title: "PostgreSQL & SQLite Fallback",
+        description: "ORM database layers map structured models with connection pool configurations. The system is engineered to automatically initialize a thread-safe SQLite fallback database to guarantee audit trail continuity."
+      }
+    ]
+  },
+  {
+    title: "RepoAnalyzer",
+    category: "AI-Powered Code Analytics",
+    description: "An AI-powered GitHub repository analyzer that instantly understands complex codebases through hierarchical dependency mapping and visual complexity scoring. Features conversational RAG.",
+    themeColor: "teal",
+    layer1: {
+      label: "LAYER 01 // Semantic Retrieval",
+      footer: "Hierarchical prompt context assembly engine",
+      content: (
+        <div className="flex flex-col justify-center my-2 font-mono text-[8px] text-gray-300 bg-black/40 p-2.5 rounded-lg border border-white/5 w-full">
+          <div className="text-teal-400">[RAG] Query: &apos;How does routing resolve?&apos;</div>
+          <div className="text-gray-400">&gt; Matching chunks in AST... router.ts (0.89)</div>
+          <div className="text-purple-400 mt-1">Prompt Injection:</div>
+          <div className="text-gray-400">&quot;Answer user query using router.ts context...&quot;</div>
+        </div>
+      )
+    },
+    layer2: {
+      label: "LAYER 02 // Codebase AST Graph",
+      pillText: "TypeScript AST",
+      footer: "Abstract Syntax Tree analyzers compute codebase scores",
+      content: (
+        <div className="flex items-center justify-center gap-3 my-2 text-[9px] font-mono w-full">
+          <div className="p-1.5 border border-teal-500/20 bg-teal-500/5 rounded">
+            <div className="font-bold text-teal-300">AST Parser</div>
+          </div>
+          <span className="text-gray-500">&gt;&gt;</span>
+          <div className="flex flex-col gap-1">
+            <div className="px-2 py-1 rounded bg-black/40 border border-white/5 text-[7px] text-gray-400">complexity: 12 (Low)</div>
+            <div className="px-2 py-1 rounded bg-black/40 border border-white/5 text-[7px] text-gray-400">dependencies: mapped</div>
+          </div>
+        </div>
+      )
+    },
+    layer3: {
+      label: "LAYER 03 // Vector Knowledge Base",
+      pillText: "pgvector Index",
+      footer: "pgvector database + semantic chunk embedding indexing",
+      content: (
+        <div className="flex flex-col justify-center my-2 font-mono text-[8px] text-gray-400 bg-zinc-950 p-2 rounded-lg border border-white/5 w-full text-center">
+          <div className="text-teal-400 font-bold">Vector Storage Chunks</div>
+          <div className="text-gray-500 text-[6px] mt-1">[0.12, -0.42, 0.98, ... 1536 dims]</div>
+          <div className="text-purple-400 mt-1">Cosine Similarity Search Active</div>
+        </div>
+      )
+    },
+    captions: [
+      {
+        category: "Code Intelligence",
+        title: "RepoAnalyzer",
+        description: "Instantly maps architecture, identifies code hotspots, and assemble dependencies. It brings deep codebase comprehension via generative RAG agents."
+      },
+      {
+        category: "Syntax Modeling",
+        title: "Abstract Syntax Tree (AST)",
+        description: "Our parsing engines evaluate file nodes, discover circular dependencies, compile layout structures, and analyze code syntax metrics to map full-scope engineering coordinate files."
+      },
+      {
+        category: "Semantic Vector Fabric",
+        title: "RAG Semantic Search Store",
+        description: "Source code files are dynamically chunked, embedded, and stored in pgvector databases. Developers query repositories conversationally with exact semantic retrieval match."
+      }
+    ]
+  },
+  {
+    title: "SkillSync",
+    category: "Consistency Momentum Engine",
+    description: "A consistency momentum tracker measuring daily practice streaks, dynamically mapping stagnancy warnings, and dispatching notification triggers.",
+    themeColor: "orange",
+    layer1: {
+      label: "LAYER 01 // Streak Tracker Grid",
+      footer: "Streaks calendar with automated grace period checks",
+      content: (
+        <div className="flex flex-col items-center justify-center my-2 w-full text-center">
+          <div className="text-xl font-bold text-amber-500 flex items-center gap-1">
+            12d <span className="text-lg animate-pulse">🔥</span>
+          </div>
+          <div className="grid grid-cols-7 gap-1 mt-2.5">
+            {["M","T","W","T","F","S","S"].map((d, i) => (
+              <div key={i} className="flex flex-col items-center">
+                <span className="text-[7px] text-gray-500 font-mono mb-1">{d}</span>
+                <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center text-[7px] font-bold ${i < 5 ? "bg-amber-500 text-black" : "border border-white/10 text-gray-500"}`}>
+                  {i < 5 ? "✔" : ""}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )
+    },
+    layer2: {
+      label: "LAYER 02 // Momentum Checker",
+      pillText: "Cron Engine",
+      footer: "Cron monitors inactive status and warns users",
+      content: (
+        <div className="flex flex-col justify-center my-2 font-mono text-[8px] text-gray-300 bg-black/40 p-2.5 rounded-lg border border-white/5 w-full">
+          <div className="text-amber-500">scheduler: StagnationMonitor</div>
+          <div className="text-gray-500">Cron: 0 0 * * * (Daily trigger)</div>
+          <div className="text-purple-400 mt-1">Consistency Check:</div>
+          <div className="text-gray-400">Streak: 12d // Grace Periods: 1 Remaining</div>
+        </div>
+      )
+    },
+    layer3: {
+      label: "LAYER 03 // Practice Audit Database",
+      pillText: "PostgreSQL",
+      footer: "Relational activity logs persisting audit streaks",
+      content: (
+        <div className="flex items-center justify-center gap-4 my-2 text-[8px] font-mono text-center w-full">
+          <div className="p-1.5 border border-amber-500/20 bg-amber-500/5 rounded">
+            <div className="font-bold text-amber-400">Users</div>
+          </div>
+          <span className="text-gray-500">◀ 1:N ▶</span>
+          <div className="p-1.5 border border-purple-500/20 bg-purple-500/5 rounded">
+            <div className="font-bold text-purple-400">ActivityLogs</div>
+            <div className="text-[6px] text-gray-500">grace_used: bool</div>
+          </div>
+        </div>
+      )
+    },
+    captions: [
+      {
+        category: "Practice Analytics",
+        title: "SkillSync Monitor",
+        description: "Consistency momentum tracker designed to measure practices and alert stagnation periods, keeping developers engaged."
+      },
+      {
+        category: "Automatic Verification",
+        title: "Stagnation Warning System",
+        description: "Centralized cron schedulers evaluate profile activities daily. If inactivity passes user limits, automated alerts notify users to keep streak flame counts active."
+      },
+      {
+        category: "Streak Audit Database",
+        title: "Relational Persistence logs",
+        description: "SQL schemas secure daily entries, tracking streak calculations and verifying used grace periods to keep data models resilient."
+      }
+    ]
+  },
+  {
+    title: "BookMyShow Clone",
+    category: "High-Fidelity Booking Flow",
+    description: "A bookmyShow cloning application replicating complete live seating allocations, ticket locked state periods, and simulated transactional checkout gates.",
+    themeColor: "red",
+    layer1: {
+      label: "LAYER 01 // Seating Grid Canvas",
+      footer: "Interactive SVG seats map displaying selected grids",
+      content: (
+        <div className="flex flex-col items-center justify-center my-2 w-full text-center">
+          <div className="grid grid-cols-5 gap-1">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <div 
+                key={i} 
+                className={`w-3.5 h-3.5 rounded-sm flex items-center justify-center text-[7px] font-mono font-bold ${
+                  i === 3 
+                    ? "bg-red-600 text-white animate-pulse" 
+                    : i === 6 
+                      ? "bg-zinc-800 text-zinc-600 cursor-not-allowed" 
+                      : "border border-white/20 text-gray-400"
+                }`}
+              >
+                {i === 3 ? "A4" : i === 6 ? "X" : `A${i+1}`}
+              </div>
+            ))}
+          </div>
+        </div>
+      )
+    },
+    layer2: {
+      label: "LAYER 02 // Reservation Gate",
+      pillText: "Checkout State",
+      footer: "Stage controller locking seats during reservation checkout",
+      content: (
+        <div className="flex flex-col justify-center my-2 font-mono text-[8px] text-gray-300 bg-black/40 p-2.5 rounded-lg border border-white/5 w-full">
+          <div className="text-red-500">lockRoomState: Reserve seat A4</div>
+          <div className="text-gray-500">Timer: 09:59 (Locked Checkout)</div>
+          <div className="text-purple-400 mt-1">Simulated Gateway payment:</div>
+          <div className="text-gray-400">Checkout Success &gt;&gt; Print PDF Ticket</div>
+        </div>
+      )
+    },
+    layer3: {
+      label: "LAYER 03 // Local Storage persistence",
+      pillText: "Caching Store",
+      footer: "Caching client states and sync with Restful API",
+      content: (
+        <div className="flex items-center justify-center gap-3 my-2 text-[9px] font-mono">
+          <div className="p-1.5 border border-red-500/20 bg-red-500/5 rounded">
+            <div className="font-bold text-red-300">LocalStorage</div>
+          </div>
+          <span className="text-gray-500">◀ sync ▶</span>
+          <div className="p-1.5 border border-white/10 bg-white/5 rounded">
+            <div className="font-bold text-white">REST API Mocks</div>
+          </div>
+        </div>
+      )
+    },
+    captions: [
+      {
+        category: "Transactional Grid Flow",
+        title: "BookMyShow Clone",
+        description: "Replicating high-fidelity seating maps, tracking user booking selections, and handling reservation locks dynamically."
+      },
+      {
+        category: "State Handlers",
+        title: "Staged Reservation Locks",
+        description: "Centralized checkout controllers lock selected seat grids for exactly ten minutes, preventing circular double booking while users confirm checkout simulated payments."
+      },
+      {
+        category: "Seat Allocation Caching",
+        title: "Persistence & REST Synchronization",
+        description: "Simulated localized state persistence syncs live selection updates, caching seat data models and locking transaction reservations securely."
+      }
+    ]
+  }
+];
+
+// ── REUSEABLE EXPLODED PROJECT SHOWCASE COMPONENT ───────────────────────────
+function ExplodedProjectShowcase({
+  project,
+  index,
+}: {
+  project: typeof projectSpecifications[number];
+  index: number;
+}) {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  
+  // Local scroll progress specifically bound to this section's scroll passage
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
+  // Silky smooth interpolation transformations
+  const explodedProgress = useTransform(scrollYProgress, [0.05, 0.8], [0, 1]);
+  const centerpieceOpacity = useTransform(scrollYProgress, [0, 0.88, 0.98], [1, 1, 0]);
+
+  // Floating 3D separation bounds
+  const layer1Z = useTransform(explodedProgress, [0, 0.5], [0, 130]); 
+  const layer2Z = useTransform(explodedProgress, [0, 0.5], [0, 0]);   
+  const layer3Z = useTransform(explodedProgress, [0, 0.5], [0, -130]); 
+  
+  const layer1Opacity = useTransform(explodedProgress, [0, 0.1, 0.6], [0.5, 1, 0.4]);
+  const layer2Opacity = useTransform(explodedProgress, [0, 0.2, 0.7], [0.5, 1, 0.5]);
+  const layer3Opacity = useTransform(explodedProgress, [0, 0.3, 0.8], [0.5, 1, 0.6]);
+
+  const layer1Scale = useTransform(explodedProgress, [0, 0.5], [1, 1.05]);
+  const layer2Scale = useTransform(explodedProgress, [0, 0.5], [1, 1.0]);
+  const layer3Scale = useTransform(explodedProgress, [0, 0.5], [1, 0.95]);
+
+  const captionIndex = useTransform(explodedProgress, 
+    [0, 0.22, 0.46, 0.78, 1], 
+    [0, 0, 1, 2, 2]
+  );
+
+  const [currentCaption, setCurrentCaption] = useState(0);
+  useEffect(() => {
+    return captionIndex.onChange((latest) => {
+      setCurrentCaption(Math.round(latest));
+    });
+  }, [captionIndex]);
+
+  // Accent mappings
+  const colorMap = {
+    blue: {
+      text: "text-blue-400",
+      accent: "bg-blue-500",
+      border: "border-blue-500/30",
+      bg: "bg-blue-500/10",
+    },
+    teal: {
+      text: "text-teal-400",
+      accent: "bg-teal-500",
+      border: "border-teal-500/30",
+      bg: "bg-teal-500/10",
+    },
+    orange: {
+      text: "text-amber-400",
+      accent: "bg-amber-500",
+      border: "border-amber-500/30",
+      bg: "bg-amber-500/10",
+    },
+    red: {
+      text: "text-red-400",
+      accent: "bg-red-500",
+      border: "border-red-500/30",
+      bg: "bg-red-500/10",
+    },
+  };
+
+  const theme = colorMap[project.themeColor as keyof typeof colorMap] || colorMap.blue;
+
+  return (
+    <div 
+      ref={sectionRef} 
+      className="relative h-[220vh] bg-black border-t border-white/5 z-20 w-full"
+    >
+      {/* Sticky viewport snapping panel */}
+      <motion.div
+        style={{ opacity: centerpieceOpacity }}
+        className="sticky top-0 h-[100vh] flex flex-col justify-center items-center overflow-hidden w-full px-4"
+      >
+        <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full pt-10">
+          
+          {/* LEFT: Exploded Glass Layers */}
+          <div className="relative flex justify-center items-center h-[50vh] lg:h-[70vh] perspective-[1000px]">
+            <div className="relative w-[300px] h-[300px] md:w-[410px] md:h-[410px] transform-style-3d rotate-x-[24deg] rotate-y-[-18deg]">
+              
+              {/* LAYER 1 (Top Layer) */}
+              <motion.div
+                style={{ translateZ: layer1Z, opacity: layer1Opacity, scale: layer1Scale }}
+                className="absolute inset-0 apple-glass rounded-2xl p-4 floating-layer-1 flex flex-col justify-between"
+              >
+                <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                  <span className={`text-[9px] uppercase font-mono tracking-widest ${theme.text}`}>{project.layer1.label}</span>
+                  <span className={`w-2 h-2 rounded-full ${theme.accent} animate-pulse`}></span>
+                </div>
+                
+                <div className="flex-1 flex items-center justify-center my-2 select-none w-full">
+                  {project.layer1.content}
+                </div>
+
+                <div className="text-[8px] font-mono text-gray-500 text-center border-t border-white/5 pt-1.5">
+                  {project.layer1.footer}
+                </div>
+              </motion.div>
+
+              {/* LAYER 2 (Middle Layer) */}
+              <motion.div
+                style={{ translateZ: layer2Z, opacity: layer2Opacity, scale: layer2Scale }}
+                className="absolute inset-0 apple-glass rounded-2xl p-4 floating-layer-2 flex flex-col justify-between"
+              >
+                <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                  <span className={`text-[9px] uppercase font-mono tracking-widest ${theme.text}`}>{project.layer2.label}</span>
+                  <span className="text-[8px] font-mono text-gray-400">{project.layer2.pillText}</span>
+                </div>
+
+                <div className="flex-1 flex flex-col justify-center my-2 select-none w-full">
+                  {project.layer2.content}
+                </div>
+
+                <div className="text-[8px] font-mono text-gray-500 text-center border-t border-white/5 pt-1.5">
+                  {project.layer2.footer}
+                </div>
+              </motion.div>
+
+              {/* LAYER 3 (Bottom Layer) */}
+              <motion.div
+                style={{ translateZ: layer3Z, opacity: layer3Opacity, scale: layer3Scale }}
+                className="absolute inset-0 apple-glass rounded-2xl p-4 floating-layer-3 flex flex-col justify-between"
+              >
+                <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                  <span className={`text-[9px] uppercase font-mono tracking-widest ${theme.text}`}>{project.layer3.label}</span>
+                  <span className="text-[8px] font-mono text-gray-500">{project.layer3.pillText}</span>
+                </div>
+
+                <div className="flex-1 flex items-center justify-center my-2 select-none w-full">
+                  {project.layer3.content}
+                </div>
+
+                <div className="text-[8px] font-mono text-gray-500 text-center border-t border-white/5 pt-1.5">
+                  {project.layer3.footer}
+                </div>
+              </motion.div>
+
+            </div>
+          </div>
+
+          {/* RIGHT: Floating Scroll Pinned Captions */}
+          <div className="relative h-[40vh] flex flex-col justify-center items-start pl-6 border-l border-white/5">
+            <AnimatePresence mode="wait">
+              {project.captions.map((caption, capIdx) => {
+                if (currentCaption === capIdx || (capIdx === 2 && currentCaption >= 2)) {
+                  return (
+                    <motion.div
+                      key={`caption-${capIdx}`}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.5 }}
+                      className="space-y-4"
+                    >
+                      <span className={`text-xs uppercase font-bold tracking-[0.2em] ${theme.text}`}>{caption.category}</span>
+                      <h2 className="text-3xl md:text-5xl font-extrabold uppercase tracking-tight text-white">{caption.title}</h2>
+                      <p className="text-sm md:text-base text-gray-400 font-light leading-relaxed max-w-xl">
+                        {caption.description}
+                      </p>
+                      {capIdx === 0 && (
+                        <div className="flex items-center gap-4 text-xs font-mono text-gray-500">
+                          <span>↓ Scroll to Explode Layers</span>
+                        </div>
+                      )}
+                    </motion.div>
+                  );
+                }
+                return null;
+              })}
+            </AnimatePresence>
+          </div>
+
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+// ── MAIN HOMEPAGE ────────────────────────────────────────────────────────────
 export default function Home() {
   const { ref: homeRef } = useSectionInView("Home", 0.2);
   const { ref: aboutRef } = useSectionInView("About", 0.5);
@@ -78,7 +560,7 @@ export default function Home() {
     inViewProjectsRef(node);
   };
 
-  // Scroll triggers for Section 1 (Hero) & Section 2 (Philosophy) & Section 3 (Exploded View)
+  // Scroll triggers for Section 1 (Hero) & Section 2 (Philosophy)
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -96,39 +578,6 @@ export default function Home() {
   const philosophyProgress = useTransform(scrollYProgress, [0.22, 0.35], [0, 1]);
   const philosophyScale = useTransform(scrollYProgress, [0.2, 0.25, 0.35, 0.4], [0.95, 1, 1, 0.95]);
 
-  // Section 3 (Mulai 3D Exploded Centerpiece) Transformations
-  const { scrollYProgress: projectsScrollY } = useScroll({
-    target: projectsSectionRef,
-    offset: ["start start", "end end"],
-  });
-  const explodedProgress = useTransform(projectsScrollY, [0.05, 0.8], [0, 1]);
-  const centerpieceOpacity = useTransform(projectsScrollY, [0, 0.88, 0.98], [1, 1, 0]);
-  
-  // Centerpiece layer transformations
-  const layer1Z = useTransform(explodedProgress, [0, 0.5], [0, 140]); // Conversational AI Layer
-  const layer2Z = useTransform(explodedProgress, [0, 0.5], [0, 0]);   // FastAPI API Layer
-  const layer3Z = useTransform(explodedProgress, [0, 0.5], [0, -140]); // Data Layer
-  
-  const layer1Opacity = useTransform(explodedProgress, [0, 0.1, 0.6], [0.5, 1, 0.4]);
-  const layer2Opacity = useTransform(explodedProgress, [0, 0.2, 0.7], [0.5, 1, 0.5]);
-  const layer3Opacity = useTransform(explodedProgress, [0, 0.3, 0.8], [0.5, 1, 0.6]);
-
-  const layer1Scale = useTransform(explodedProgress, [0, 0.5], [1, 1.06]);
-  const layer2Scale = useTransform(explodedProgress, [0, 0.5], [1, 1.0]);
-  const layer3Scale = useTransform(explodedProgress, [0, 0.5], [1, 0.94]);
-
-  const captionIndex = useTransform(explodedProgress, 
-    [0, 0.22, 0.46, 0.78, 1], 
-    [0, 0, 1, 2, 2]
-  );
-  
-  const [currentCaption, setCurrentCaption] = useState(0);
-  useEffect(() => {
-    return captionIndex.onChange((latest) => {
-      setCurrentCaption(Math.round(latest));
-    });
-  }, [captionIndex]);
-
   // ── STATE: Interactive Chatbot ──────────────────────────────────────────────
   const [messages, setMessages] = useState<Array<{ sender: "user" | "ai"; text: string }>>([
     { sender: "ai", text: "Welcome. Ask me about Akshay's technical philosophy, the Mulai BI System, or how he operates." }
@@ -137,7 +586,7 @@ export default function Home() {
   const chatbotEndRef = useRef<HTMLDivElement>(null);
 
   const botResponses = {
-    philosophy: "Akshay builds for 'calculated engineering risks.' He specializes in transitioning architectures from linear API chains into multi-agent systems with self-healing, transactional fail-safes.",
+    philosophy: "Akshay builds for &apos;calculated engineering risks.&apos; He specializes in transitioning architectures from linear API chains into multi-agent systems with self-healing, transactional fail-safes.",
     skills: "His core arsenal is highly production-tested:\n• Languages: Python, Java, JavaScript, C++\n• Backend: FastAPI, Spring Boot, SQLAlchemy, REST APIs\n• AI/ML: LangGraph, LangChain, RAG, Vector Databases\n• Databases: PostgreSQL, MySQL, MongoDB",
     experience: "Akshay has 1 year of professional experience at Mobifintree focused on high-throughput products, coupled with a solid internship at IndyaPay building secure payment query microservices.",
     mulai: "The Mulai BI System is a stateful LangGraph pipeline. It utilizes vision-capable models (Gemini-1.5-Flash) to parse unstructured invoices and receipts, run statistical anomaly math, and persist transactions with Postgres connection pooling."
@@ -341,225 +790,16 @@ TOTAL CASH: $139.32
         </motion.div>
       </section>
 
-      {/* ── SECTION 3: THE CENTERPIECE PROJECT (3D Exploded Apple-style View) ─── */}
-      <section ref={setProjectsRefs} id="projects" className="relative h-[250vh] bg-black border-t border-white/5 z-20">
-        
-        {/* Sticky viewport container */}
-        <motion.div 
-          style={{ opacity: centerpieceOpacity }}
-          className="sticky top-0 h-[100vh] flex flex-col justify-center items-center overflow-hidden w-full px-4"
-        >
-          <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full pt-10">
-            
-            {/* LEFT: 3D Exploded Layer Visualizer */}
-            <div className="relative flex justify-center items-center h-[50vh] lg:h-[70vh] perspective-[1000px]">
-              
-              <div className="relative w-[300px] h-[300px] md:w-[420px] md:h-[420px] transform-style-3d rotate-x-[25deg] rotate-y-[-20deg]">
-                
-                {/* LAYER 1: Top - Conversational Agent Layer */}
-                <motion.div
-                  style={{ 
-                    translateZ: layer1Z, 
-                    opacity: layer1Opacity,
-                    scale: layer1Scale
-                  }}
-                  className="absolute inset-0 apple-glass rounded-2xl p-4 floating-layer-1 flex flex-col justify-between"
-                >
-                  <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                    <span className="text-[10px] uppercase text-blue-400 font-mono tracking-widest">LAYER 01 // Multi-Agent Graph</span>
-                    <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-                  </div>
-                  
-                  {/* Dynamic Agent Graph Visualization */}
-                  <div className="flex-1 flex items-center justify-center gap-4 my-2">
-                    <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-white/5 border border-white/10 text-center w-24">
-                      <BsCpu className="text-lg text-purple-400 mb-1" />
-                      <span className="text-[9px] font-mono font-bold">Supervisor</span>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <div className="px-3 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/30 text-[8px] font-mono text-blue-300">Extractor Agent</div>
-                      <div className="px-3 py-1.5 rounded-lg bg-teal-500/10 border border-teal-500/30 text-[8px] font-mono text-teal-300">Insight Analyst</div>
-                    </div>
-                  </div>
-                  <div className="text-[9px] font-mono text-gray-500 text-center border-t border-white/5 pt-1.5">
-                    LangGraph stateful routing logic (Gemini 1.5 Flash)
-                  </div>
-                </motion.div>
-
-                {/* LAYER 2: Middle - FastAPI API Routing Layer */}
-                <motion.div
-                  style={{ 
-                    translateZ: layer2Z, 
-                    opacity: layer2Opacity,
-                    scale: layer2Scale
-                  }}
-                  className="absolute inset-0 apple-glass rounded-2xl p-4 floating-layer-2 flex flex-col justify-between"
-                >
-                  <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                    <span className="text-[10px] uppercase text-teal-400 font-mono tracking-widest">LAYER 02 // API Gateway</span>
-                    <span className="text-[8px] font-mono text-gray-400">FastAPI</span>
-                  </div>
-
-                  {/* FastAPI Schema Preview */}
-                  <div className="flex-1 flex flex-col justify-center my-2 font-mono text-[9px] text-gray-300 bg-black/40 p-2.5 rounded-lg border border-white/5">
-                    <div className="text-teal-400">POST /api/v1/ingest</div>
-                    <div className="text-gray-500">Headers: X-API-Key (Secure)</div>
-                    <div className="text-purple-400 mt-1">class IngestionRun(BaseModel):</div>
-                    <div className="pl-2 text-gray-400">report_id: str = UUID</div>
-                    <div className="pl-2 text-gray-400">status: str = &quot;pending&quot;</div>
-                  </div>
-
-                  <div className="text-[9px] font-mono text-gray-500 text-center border-t border-white/5 pt-1.5">
-                    Asynchronous routing endpoints with key validators
-                  </div>
-                </motion.div>
-
-                {/* LAYER 3: Bottom - PostgreSQL Relational Fabric */}
-                <motion.div
-                  style={{ 
-                    translateZ: layer3Z, 
-                    opacity: layer3Opacity,
-                    scale: layer3Scale
-                  }}
-                  className="absolute inset-0 apple-glass rounded-2xl p-4 floating-layer-3 flex flex-col justify-between"
-                >
-                  <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                    <span className="text-[10px] uppercase text-purple-400 font-mono tracking-widest">LAYER 03 // DB &amp; Persistence</span>
-                    <BsDatabase className="text-gray-500 text-xs" />
-                  </div>
-
-                  {/* DB Relational map */}
-                  <div className="flex-1 flex items-center justify-center gap-6 my-2 text-[9px] font-mono text-center">
-                    <div className="p-2 border border-purple-500/20 bg-purple-500/5 rounded-lg">
-                      <div className="font-bold text-purple-300">IngestionRuns</div>
-                      <div className="text-[7px] text-gray-500">PK: report_id</div>
-                    </div>
-                    <span className="text-gray-500 text-sm">◀ 1:N ▶</span>
-                    <div className="p-2 border border-blue-500/20 bg-blue-500/5 rounded-lg">
-                      <div className="font-bold text-blue-300">SalesRecords</div>
-                      <div className="text-[7px] text-gray-500">FK: report_id</div>
-                    </div>
-                  </div>
-
-                  <div className="text-[9px] font-mono text-gray-500 text-center border-t border-white/5 pt-1.5">
-                    SQLAlchemy ORM + PostgreSQL connections pool
-                  </div>
-                </motion.div>
-
-              </div>
-            </div>
-
-            {/* RIGHT: Floating focal captions */}
-            <div className="relative h-[40vh] flex flex-col justify-center items-start pl-6 border-l border-white/5">
-              <AnimatePresence mode="wait">
-                {currentCaption === 0 && (
-                  <motion.div
-                    key="caption-1"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.5 }}
-                    className="space-y-4"
-                  >
-                    <span className="text-xs uppercase font-bold tracking-[0.2em] text-blue-500">Centerpiece Project</span>
-                    <h2 className="text-3xl md:text-5xl font-extrabold uppercase tracking-tight">Mulai BI System</h2>
-                    <p className="text-sm md:text-base text-gray-400 font-light leading-relaxed max-w-xl">
-                      An autonomous multi-agent pipeline designed to solve the unstructured enterprise sales data bottleneck. As you scroll, watch the system disassemble into its three high-performance architectures.
-                    </p>
-                    <div className="flex items-center gap-4 text-xs font-mono text-gray-500">
-                      <span>↓ Scroll to Explode Layers</span>
-                    </div>
-                  </motion.div>
-                )}
-
-                {currentCaption === 1 && (
-                  <motion.div
-                    key="caption-2"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.5 }}
-                    className="space-y-4"
-                  >
-                    <span className="text-xs uppercase font-bold tracking-[0.2em] text-teal-400">Orchestration &amp; Routing</span>
-                    <h2 className="text-3xl md:text-5xl font-extrabold uppercase tracking-tight">Multi-Agent State Machine</h2>
-                    <p className="text-sm md:text-base text-gray-400 font-light leading-relaxed max-w-xl">
-                      Managed by a central LangGraph Supervisor. Documents are intelligently assigned, parsed using visual extraction matrices, mathematically analyzed for market outliers, and double-checked before exit.
-                    </p>
-                  </motion.div>
-                )}
-
-                {currentCaption >= 2 && (
-                  <motion.div
-                    key="caption-3"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.5 }}
-                    className="space-y-4"
-                  >
-                    <span className="text-xs uppercase font-bold tracking-[0.2em] text-purple-400">Resilient Persistence</span>
-                    <h2 className="text-3xl md:text-5xl font-extrabold uppercase tracking-tight">PostgreSQL &amp; SQLite Fallback</h2>
-                    <p className="text-sm md:text-base text-gray-400 font-light leading-relaxed max-w-xl">
-                      ORM database layers map structured models with pool configurations. The system is engineered to catch failures and automatically initialize a thread-safe SQLite fallback database to guarantee audit trail continuity.
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-          </div>
-        </motion.div>
-      </section>
-
-      {/* ── ADDITIONAL PROJECTS (Showcase Grid) ─────────────────────────────────── */}
-      <section className="relative px-4 py-28 bg-black border-t border-white/5 z-20">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <span className="text-xs uppercase tracking-[0.2em] text-blue-500 font-bold">Systems Catalog</span>
-            <h2 className="text-3xl md:text-5xl font-extrabold uppercase tracking-tight mt-2">More Engineering Builds</h2>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {projectsData.slice(1).map((project, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 35 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: index * 0.15 }}
-                className="apple-glass rounded-3xl overflow-hidden group flex flex-col justify-between"
-              >
-                <div className="p-8">
-                  <div className="flex justify-between items-start mb-4">
-                    <h3 className="text-xl font-bold uppercase tracking-tight text-white">{project.title}</h3>
-                    <BsArrowUpRight className="text-gray-500 group-hover:text-blue-400 transition-all duration-300 transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                  </div>
-                  <p className="text-xs text-gray-400 font-light leading-relaxed mb-6 h-24 overflow-hidden">{project.description}</p>
-                  
-                  {/* Tech stack tags */}
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag, idx) => (
-                      <span key={idx} className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[9px] font-mono text-gray-300">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="relative h-48 md:h-64 w-full overflow-hidden border-t border-white/5 bg-zinc-950">
-                  <Image
-                    src={project.imageUrl}
-                    alt={project.title}
-                    fill
-                    className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
-                  />
-                </div>
-              </motion.div>
-            ))}
-          </div>
+      {/* ── SECTION 3: 4 CONSECUTIVE 3D EXPLODED PROJECT SHOWCASES ─────────────── */}
+      <div ref={setProjectsRefs} id="projects" className="relative w-full z-20">
+        <div className="text-center py-16 bg-black">
+          <span className="text-xs uppercase tracking-[0.2em] text-blue-500 font-bold">Systems Catalog</span>
+          <h2 className="text-3xl md:text-6xl font-extrabold uppercase tracking-tight mt-2 text-white">Autonomous Architectures</h2>
         </div>
-      </section>
+        {projectSpecifications.map((project, idx) => (
+          <ExplodedProjectShowcase key={idx} project={project} index={idx} />
+        ))}
+      </div>
 
       {/* ── SECTION 4: THE TECHNICAL ARSENAL (Interactive Grid) ───────────────── */}
       <section ref={skillsRef} id="skills" className="relative px-4 py-28 bg-black border-t border-white/5 z-20">
