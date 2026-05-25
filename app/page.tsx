@@ -74,11 +74,12 @@ const projectSpecifications = [
     category: "Autonomous Multi-Agent Ingestion",
     description: "An autonomous, stateful business intelligence pipeline powered by LangGraph. Ingests raw invoices, receipts, and text logs, coordinates vision-enabled extractors, performs outlier/anomaly detection, and persists results securely to PostgreSQL.",
     themeColor: "blue",
+    imageUrl: mulaiImg,
     layer1: {
       label: "LAYER 01 // Multi-Agent Graph",
       footer: "LangGraph stateful routing logic (Gemini 1.5 Flash)",
       content: (
-        <div className="flex items-center justify-center gap-4 my-2">
+        <div className="flex items-center justify-center gap-4 my-2 w-full">
           <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-white/5 border border-white/10 text-center w-24">
             <BsCpu className="text-lg text-purple-400 mb-1" />
             <span className="text-[9px] font-mono font-bold">Supervisor</span>
@@ -95,7 +96,7 @@ const projectSpecifications = [
       pillText: "FastAPI",
       footer: "Asynchronous routing endpoints with key validators",
       content: (
-        <div className="flex flex-col justify-center my-2 font-mono text-[9px] text-gray-300 bg-black/40 p-2.5 rounded-lg border border-white/5 w-full">
+        <div className="flex flex-col justify-center my-2 font-mono text-[9px] text-gray-300 w-full">
           <div className="text-teal-400">POST /api/v1/ingest</div>
           <div className="text-gray-500">Headers: X-API-Key (Secure)</div>
           <div className="text-purple-400 mt-1">class IngestionRun(BaseModel):</div>
@@ -145,11 +146,12 @@ const projectSpecifications = [
     category: "AI-Powered Code Analytics",
     description: "An AI-powered GitHub repository analyzer that instantly understands complex codebases through hierarchical dependency mapping and visual complexity scoring. Features conversational RAG.",
     themeColor: "teal",
+    imageUrl: repoAnalyzerImg,
     layer1: {
       label: "LAYER 01 // Semantic Retrieval",
       footer: "Hierarchical prompt context assembly engine",
       content: (
-        <div className="flex flex-col justify-center my-2 font-mono text-[8px] text-gray-300 bg-black/40 p-2.5 rounded-lg border border-white/5 w-full">
+        <div className="flex flex-col justify-center my-2 font-mono text-[8px] text-gray-300 w-full">
           <div className="text-teal-400">[RAG] Query: &apos;How does routing resolve?&apos;</div>
           <div className="text-gray-400">&gt; Matching chunks in AST... router.ts (0.89)</div>
           <div className="text-purple-400 mt-1">Prompt Injection:</div>
@@ -209,6 +211,7 @@ const projectSpecifications = [
     category: "Consistency Momentum Engine",
     description: "A consistency momentum tracker measuring daily practice streaks, dynamically mapping stagnancy warnings, and dispatching notification triggers.",
     themeColor: "orange",
+    imageUrl: skillSyncImg,
     layer1: {
       label: "LAYER 01 // Streak Tracker Grid",
       footer: "Streaks calendar with automated grace period checks",
@@ -235,7 +238,7 @@ const projectSpecifications = [
       pillText: "Cron Engine",
       footer: "Cron monitors inactive status and warns users",
       content: (
-        <div className="flex flex-col justify-center my-2 font-mono text-[8px] text-gray-300 bg-black/40 p-2.5 rounded-lg border border-white/5 w-full">
+        <div className="flex flex-col justify-center my-2 font-mono text-[8px] text-gray-300 w-full">
           <div className="text-amber-500">scheduler: StagnationMonitor</div>
           <div className="text-gray-500">Cron: 0 0 * * * (Daily trigger)</div>
           <div className="text-purple-400 mt-1">Consistency Check:</div>
@@ -283,6 +286,7 @@ const projectSpecifications = [
     category: "High-Fidelity Booking Flow",
     description: "A bookmyShow cloning application replicating complete live seating allocations, ticket locked state periods, and simulated transactional checkout gates.",
     themeColor: "red",
+    imageUrl: bmsCloneImg,
     layer1: {
       label: "LAYER 01 // Seating Grid Canvas",
       footer: "Interactive SVG seats map displaying selected grids",
@@ -312,7 +316,7 @@ const projectSpecifications = [
       pillText: "Checkout State",
       footer: "Stage controller locking seats during reservation checkout",
       content: (
-        <div className="flex flex-col justify-center my-2 font-mono text-[8px] text-gray-300 bg-black/40 p-2.5 rounded-lg border border-white/5 w-full">
+        <div className="flex flex-col justify-center my-2 font-mono text-[8px] text-gray-300 w-full">
           <div className="text-red-500">lockRoomState: Reserve seat A4</div>
           <div className="text-gray-500">Timer: 09:59 (Locked Checkout)</div>
           <div className="text-purple-400 mt-1">Simulated Gateway payment:</div>
@@ -372,14 +376,14 @@ function ExplodedProjectShowcase({
     offset: ["start start", "end end"],
   });
 
-  // Silky smooth interpolation transformations
-  const explodedProgress = useTransform(scrollYProgress, [0.05, 0.8], [0, 1]);
-  const centerpieceOpacity = useTransform(scrollYProgress, [0, 0.88, 0.98], [1, 1, 0]);
+  // Silky smooth, tight interpolation transformations for 155vh container height
+  const explodedProgress = useTransform(scrollYProgress, [0.08, 0.75], [0, 1]);
+  const centerpieceOpacity = useTransform(scrollYProgress, [0, 0.82, 0.95], [1, 1, 0]);
 
   // Floating 3D separation bounds
-  const layer1Z = useTransform(explodedProgress, [0, 0.5], [0, 130]); 
+  const layer1Z = useTransform(explodedProgress, [0, 0.5], [0, 120]); 
   const layer2Z = useTransform(explodedProgress, [0, 0.5], [0, 0]);   
-  const layer3Z = useTransform(explodedProgress, [0, 0.5], [0, -130]); 
+  const layer3Z = useTransform(explodedProgress, [0, 0.5], [0, -120]); 
   
   const layer1Opacity = useTransform(explodedProgress, [0, 0.1, 0.6], [0.5, 1, 0.4]);
   const layer2Opacity = useTransform(explodedProgress, [0, 0.2, 0.7], [0.5, 1, 0.5]);
@@ -434,7 +438,7 @@ function ExplodedProjectShowcase({
   return (
     <div 
       ref={sectionRef} 
-      className="relative h-[220vh] bg-black border-t border-white/5 z-20 w-full"
+      className="relative h-[155vh] bg-black border-t border-white/5 z-20 w-full"
     >
       {/* Sticky viewport snapping panel */}
       <motion.div
@@ -443,7 +447,7 @@ function ExplodedProjectShowcase({
       >
         <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full pt-10">
           
-          {/* LEFT: Exploded Glass Layers */}
+          {/* LEFT: Exploded Glass Layers with Image overlays */}
           <div className="relative flex justify-center items-center h-[50vh] lg:h-[70vh] perspective-[1000px]">
             <div className="relative w-[300px] h-[300px] md:w-[410px] md:h-[410px] transform-style-3d rotate-x-[24deg] rotate-y-[-18deg]">
               
@@ -466,21 +470,32 @@ function ExplodedProjectShowcase({
                 </div>
               </motion.div>
 
-              {/* LAYER 2 (Middle Layer) */}
+              {/* LAYER 2 (Middle Layer) - Overlaid with gorgeous custom screenshot mockup backdrops */}
               <motion.div
                 style={{ translateZ: layer2Z, opacity: layer2Opacity, scale: layer2Scale }}
-                className="absolute inset-0 apple-glass rounded-2xl p-4 floating-layer-2 flex flex-col justify-between"
+                className="absolute inset-0 apple-glass rounded-2xl p-4 floating-layer-2 flex flex-col justify-between overflow-hidden group border border-white/5"
               >
-                <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                {/* Screenshot background overlay */}
+                <div className="absolute inset-0 z-0 opacity-[0.14] group-hover:opacity-[0.32] transition-opacity duration-700 pointer-events-none">
+                  <Image 
+                    src={project.imageUrl} 
+                    alt="Project Screenshot"
+                    fill
+                    className="object-cover object-top"
+                    quality={70}
+                  />
+                </div>
+
+                <div className="relative z-10 flex justify-between items-center border-b border-white/10 pb-2 bg-black/40 backdrop-blur-[2px] rounded p-1 px-2">
                   <span className={`text-[9px] uppercase font-mono tracking-widest ${theme.text}`}>{project.layer2.label}</span>
                   <span className="text-[8px] font-mono text-gray-400">{project.layer2.pillText}</span>
                 </div>
 
-                <div className="flex-1 flex flex-col justify-center my-2 select-none w-full">
+                <div className="relative z-10 flex-1 flex flex-col justify-center my-2 select-none w-full bg-black/35 backdrop-blur-[1px] rounded p-2 border border-white/5">
                   {project.layer2.content}
                 </div>
 
-                <div className="text-[8px] font-mono text-gray-500 text-center border-t border-white/5 pt-1.5">
+                <div className="relative z-10 text-[8px] font-mono text-gray-500 text-center border-t border-white/5 pt-1.5 bg-black/40 backdrop-blur-[2px] rounded p-1">
                   {project.layer2.footer}
                 </div>
               </motion.div>
