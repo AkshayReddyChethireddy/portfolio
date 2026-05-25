@@ -807,9 +807,12 @@ TOTAL CASH: $139.32
 
       {/* ── SECTION 3: 4 CONSECUTIVE 3D EXPLODED PROJECT SHOWCASES ─────────────── */}
       <div ref={setProjectsRefs} id="projects" className="relative w-full z-20">
-        <div className="text-center py-16 bg-black">
-          <span className="text-xs uppercase tracking-[0.2em] text-blue-500 font-bold">Systems Catalog</span>
-          <h2 className="text-3xl md:text-6xl font-extrabold uppercase tracking-tight mt-2 text-white">Autonomous Architectures</h2>
+        <div className="text-center py-24 bg-black border-b border-white/5">
+          <span className="text-xs uppercase tracking-[0.3em] text-blue-500 font-bold mb-3 block">Systems Catalog</span>
+          <h2 className="text-4xl md:text-7xl font-extrabold uppercase tracking-tight text-white">My Projects</h2>
+          <p className="text-xs md:text-sm max-w-xl mx-auto leading-relaxed text-gray-400 font-light mt-4 px-4">
+            A comprehensive showcase of stateful multi-agent pipelines, AST dependency maps, practice momentum tracking, and ticket transactional state handlers.
+          </p>
         </div>
         {projectSpecifications.map((project, idx) => (
           <ExplodedProjectShowcase key={idx} project={project} index={idx} />
