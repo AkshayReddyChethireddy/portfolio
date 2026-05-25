@@ -67,10 +67,16 @@ function MagneticButton({
 export default function Home() {
   const { ref: homeRef } = useSectionInView("Home", 0.2);
   const { ref: aboutRef } = useSectionInView("About", 0.5);
-  const { ref: projectsRef } = useSectionInView("Projects", 0.3);
+  const { ref: inViewProjectsRef } = useSectionInView("Projects", 0.3);
   const { ref: skillsRef } = useSectionInView("Skills", 0.5);
   const { ref: experienceRef } = useSectionInView("Experience", 0.3);
   const { ref: contactRef } = useSectionInView("Contact", 0.5);
+
+  const projectsSectionRef = useRef<any>(null);
+  const setProjectsRefs = (node: HTMLDivElement | null) => {
+    projectsSectionRef.current = node;
+    inViewProjectsRef(node);
+  };
 
   // Scroll triggers for Section 1 (Hero) & Section 2 (Philosophy) & Section 3 (Exploded View)
   const containerRef = useRef<HTMLDivElement>(null);
@@ -91,8 +97,12 @@ export default function Home() {
   const philosophyScale = useTransform(scrollYProgress, [0.2, 0.25, 0.35, 0.4], [0.95, 1, 1, 0.95]);
 
   // Section 3 (Mulai 3D Exploded Centerpiece) Transformations
-  const explodedProgress = useTransform(scrollYProgress, [0.42, 0.65], [0, 1]);
-  const centerpieceOpacity = useTransform(scrollYProgress, [0.38, 0.42, 0.66, 0.7], [0, 1, 1, 0]);
+  const { scrollYProgress: projectsScrollY } = useScroll({
+    target: projectsSectionRef,
+    offset: ["start start", "end end"],
+  });
+  const explodedProgress = useTransform(projectsScrollY, [0.05, 0.8], [0, 1]);
+  const centerpieceOpacity = useTransform(projectsScrollY, [0, 0.88, 0.98], [1, 1, 0]);
   
   // Centerpiece layer transformations
   const layer1Z = useTransform(explodedProgress, [0, 0.5], [0, 140]); // Conversational AI Layer
@@ -232,7 +242,7 @@ TOTAL CASH: $139.32
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="text-xs uppercase tracking-[0.3em] text-blue-500 font-bold mb-4"
           >
-            Creative Technologist // Principal Frontend
+            Software Engineer | Full-Stack Engineer | AI Engineer
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, filter: "blur(10px)" }}
@@ -332,7 +342,7 @@ TOTAL CASH: $139.32
       </section>
 
       {/* ── SECTION 3: THE CENTERPIECE PROJECT (3D Exploded Apple-style View) ─── */}
-      <section ref={projectsRef} id="projects" className="relative h-[250vh] bg-black border-t border-white/5 z-20">
+      <section ref={setProjectsRefs} id="projects" className="relative h-[250vh] bg-black border-t border-white/5 z-20">
         
         {/* Sticky viewport container */}
         <motion.div 

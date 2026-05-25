@@ -26,7 +26,7 @@ export const experiencesData = [
     date: "2025 - Present",
   },
   {
-    title: "Software Developer Intern",
+    title: "Software Developer",
     location: "IndyaPay",
     description:
       "Constructed and optimized high-throughput backend services. Partnered with engineering leads to design Restful APIs, implement secure JWT authentication protocols, and refine database queries—resulting in improved system reliability in a live financial environment.",
@@ -37,9 +37,9 @@ export const experiencesData = [
     title: "Computer Science Undergraduate",
     location: "University of Massachusetts Lowell",
     description:
-      "Graduated with a Bachelor of Science in Computer Science (May 2026). Focused extensively on algorithms, object-oriented programming, and system designs. Researched state-of-the-art architectures in agentic AI.",
+      "Graduated with a Bachelor of Science in Computer Science. Focused extensively on algorithms, object-oriented programming, and system designs. Researched state-of-the-art architectures in agentic AI.",
     icon: React.createElement(LuGraduationCap),
-    date: "Graduated May 2026",
+    date: "May 2025 - May 2026 (Graduated)",
   },
 ] as const;
 
