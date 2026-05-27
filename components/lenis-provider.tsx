@@ -91,7 +91,7 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
       {!isMobile && (
         <div
           ref={cursorRef}
-          className="fixed top-0 left-0 w-8 h-8 rounded-full border border-white/25 pointer-events-none -translate-x-1/2 -translate-y-1/2 z-[9999] transition-all duration-300 ease-out flex items-center justify-center mix-blend-difference"
+          className="fixed top-0 left-0 w-8 h-8 rounded-full border border-white/25 pointer-events-none -translate-x-1/2 -translate-y-1/2 z-[9999] transition-[opacity,border-color] duration-300 ease-out flex items-center justify-center mix-blend-difference"
           style={{
             transform: "translate3d(-100px, -100px, 0)",
           }}

@@ -155,7 +155,9 @@ export default function Home() {
   };
 
   useEffect(() => {
-    chatbotEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messages.length > 1) {
+      chatbotEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   }, [messages, isTyping]);
 
   // ── STATE: Pipeline Receipts Ingest Simulator ──────────────────────────────
