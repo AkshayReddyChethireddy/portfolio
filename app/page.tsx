@@ -78,15 +78,7 @@ export default function Home() {
     inViewAboutRef(node);
   };
 
-  const projectsSectionRef = useRef<any>(null);
-  const setProjectsRefs = (node: HTMLDivElement | null) => {
-    projectsSectionRef.current = node;
-    inViewProjectsRef(node);
-  };
-
-  const centerpieceTrackRef = useRef<HTMLDivElement>(null);
-
-  // Scroll triggers for Section 1 (Hero) & Section 2 (Philosophy) & Section 3 (Exploded View)
+  // Scroll triggers for Section 1 (Hero) & Section 2 (Philosophy)
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -108,39 +100,6 @@ export default function Home() {
   const philosophyProgress = useTransform(aboutScrollY, [0.15, 0.45], [0, 1]);
   const philosophyScale = useTransform(aboutScrollY, [0.1, 0.2, 0.5, 0.6], [0.96, 1, 1, 0.96]);
 
-  // Section 3 (Mulai 3D Exploded Centerpiece) Transformations
-  const { scrollYProgress: centerpieceScrollY } = useScroll({
-    target: centerpieceTrackRef,
-    offset: ["start start", "end end"],
-  });
-  const explodedProgress = useTransform(centerpieceScrollY, [0.05, 0.8], [0, 1]);
-  const centerpieceOpacity = useTransform(centerpieceScrollY, [0, 0.85, 0.95], [1, 1, 0]);
-  
-  // Centerpiece layer transformations
-  const layer1Z = useTransform(explodedProgress, [0, 0.5], [0, 140]); // Conversational AI Layer
-  const layer2Z = useTransform(explodedProgress, [0, 0.5], [0, 0]);   // FastAPI API Layer
-  const layer3Z = useTransform(explodedProgress, [0, 0.5], [0, -140]); // Data Layer
-  
-  const layer1Opacity = useTransform(explodedProgress, [0, 0.1, 0.6], [0.5, 1, 0.4]);
-  const layer2Opacity = useTransform(explodedProgress, [0, 0.2, 0.7], [0.5, 1, 0.5]);
-  const layer3Opacity = useTransform(explodedProgress, [0, 0.3, 0.8], [0.5, 1, 0.6]);
-
-  const layer1Scale = useTransform(explodedProgress, [0, 0.5], [1, 1.06]);
-  const layer2Scale = useTransform(explodedProgress, [0, 0.5], [1, 1.0]);
-  const layer3Scale = useTransform(explodedProgress, [0, 0.5], [1, 0.94]);
-
-  const captionIndex = useTransform(explodedProgress, 
-    [0, 0.22, 0.46, 0.78, 1], 
-    [0, 0, 1, 2, 2]
-  );
-  
-  const [currentCaption, setCurrentCaption] = useState(0);
-  useEffect(() => {
-    return captionIndex.onChange((latest) => {
-      setCurrentCaption(Math.round(latest));
-    });
-  }, [captionIndex]);
-
   // ── STATE: Interactive Chatbot ──────────────────────────────────────────────
   const [messages, setMessages] = useState<Array<{ sender: "user" | "ai"; text: string }>>([
     { sender: "ai", text: "Welcome. Ask me about Akshay's technical philosophy, the Mulai BI System, or how he operates." }
@@ -151,7 +110,7 @@ export default function Home() {
   const botResponses = {
     philosophy: "Akshay builds for 'calculated engineering risks.' He specializes in transitioning architectures from linear API chains into multi-agent systems with self-healing, transactional fail-safes.",
     skills: "His core arsenal is highly production-tested:\n• Languages: Python, Java, JavaScript, C++\n• Backend: FastAPI, Spring Boot, SQLAlchemy, REST APIs\n• AI/ML: LangGraph, LangChain, RAG, Vector Databases\n• Databases: PostgreSQL, MySQL, MongoDB",
-    experience: "Akshay has 1 year of professional experience at Mobifintree focused on high-throughput products, coupled with a solid internship at IndyaPay building secure payment query microservices.",
+    experience: "Akshay has 2+ years of professional experience across Mobifintree and ThreePointO Labs, focusing on high-throughput backend services, full-stack React dashboards, and robust AI integrations.",
     mulai: "The Mulai BI System is a stateful LangGraph pipeline. It utilizes vision-capable models (Gemini-1.5-Flash) to parse unstructured invoices and receipts, run statistical anomaly math, and persist transactions with Postgres connection pooling."
   };
 
@@ -348,183 +307,12 @@ TOTAL CASH: $139.32
         </motion.div>
       </section>
 
-      {/* ── SECTION 3: THE CENTERPIECE PROJECT & ALL PROJECTS ─────────────────── */}
-      <section ref={setProjectsRefs} id="projects" className="relative bg-black border-t border-white/5 z-20">
-        
-        {/* Sticky viewport container for Mulai 3D Exploded View */}
-        <div ref={centerpieceTrackRef} className="relative h-[180vh] w-full">
-          <motion.div 
-            style={{ opacity: centerpieceOpacity }}
-            className="sticky top-0 h-[100vh] flex flex-col justify-center items-center overflow-hidden w-full px-4"
-          >
-            <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full pt-10">
-              
-              {/* LEFT: 3D Exploded Layer Visualizer */}
-              <div className="relative flex justify-center items-center h-[50vh] lg:h-[70vh] perspective-[1000px]">
-                
-                <div className="relative w-[300px] h-[300px] md:w-[420px] md:h-[420px] transform-style-3d rotate-x-[25deg] rotate-y-[-20deg]">
-                  
-                  {/* LAYER 1: Top - Conversational Agent Layer */}
-                  <motion.div
-                    style={{ 
-                      translateZ: layer1Z, 
-                      opacity: layer1Opacity,
-                      scale: layer1Scale
-                    }}
-                    className="absolute inset-0 apple-glass rounded-2xl p-4 floating-layer-1 flex flex-col justify-between"
-                  >
-                    <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                      <span className="text-[10px] uppercase text-blue-400 font-mono tracking-widest">LAYER 01 // Multi-Agent Graph</span>
-                      <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-                    </div>
-                    
-                    {/* Dynamic Agent Graph Visualization */}
-                    <div className="flex-1 flex items-center justify-center gap-4 my-2">
-                      <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-white/5 border border-white/10 text-center w-24">
-                        <BsCpu className="text-lg text-purple-400 mb-1" />
-                        <span className="text-[9px] font-mono font-bold">Supervisor</span>
-                      </div>
-                      <div className="flex flex-col gap-2">
-                        <div className="px-3 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/30 text-[8px] font-mono text-blue-300">Extractor Agent</div>
-                        <div className="px-3 py-1.5 rounded-lg bg-teal-500/10 border border-teal-500/30 text-[8px] font-mono text-teal-300">Insight Analyst</div>
-                      </div>
-                    </div>
-                    <div className="text-[9px] font-mono text-gray-500 text-center border-t border-white/5 pt-1.5">
-                      LangGraph stateful routing logic (Gemini 1.5 Flash)
-                    </div>
-                  </motion.div>
-
-                  {/* LAYER 2: Middle - FastAPI API Routing Layer */}
-                  <motion.div
-                    style={{ 
-                      translateZ: layer2Z, 
-                      opacity: layer2Opacity,
-                      scale: layer2Scale
-                    }}
-                    className="absolute inset-0 apple-glass rounded-2xl p-4 floating-layer-2 flex flex-col justify-between"
-                  >
-                    <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                      <span className="text-[10px] uppercase text-teal-400 font-mono tracking-widest">LAYER 02 // API Gateway</span>
-                      <span className="text-[8px] font-mono text-gray-400">FastAPI</span>
-                    </div>
-
-                    {/* FastAPI Schema Preview */}
-                    <div className="flex-1 flex flex-col justify-center my-2 font-mono text-[9px] text-gray-300 bg-black/40 p-2.5 rounded-lg border border-white/5">
-                      <div className="text-teal-400">POST /api/v1/ingest</div>
-                      <div className="text-gray-500">Headers: X-API-Key (Secure)</div>
-                      <div className="text-purple-400 mt-1">class IngestionRun(BaseModel):</div>
-                      <div className="pl-2 text-gray-400">report_id: str = UUID</div>
-                      <div className="pl-2 text-gray-400">status: str = &quot;pending&quot;</div>
-                    </div>
-
-                    <div className="text-[9px] font-mono text-gray-500 text-center border-t border-white/5 pt-1.5">
-                      Asynchronous routing endpoints with key validators
-                    </div>
-                  </motion.div>
-
-                  {/* LAYER 3: Bottom - PostgreSQL Relational Fabric */}
-                  <motion.div
-                    style={{ 
-                      translateZ: layer3Z, 
-                      opacity: layer3Opacity,
-                      scale: layer3Scale
-                    }}
-                    className="absolute inset-0 apple-glass rounded-2xl p-4 floating-layer-3 flex flex-col justify-between"
-                  >
-                    <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                      <span className="text-[10px] uppercase text-purple-400 font-mono tracking-widest">LAYER 03 // DB &amp; Persistence</span>
-                      <BsDatabase className="text-gray-500 text-xs" />
-                    </div>
-
-                    {/* DB Relational map */}
-                    <div className="flex-1 flex items-center justify-center gap-6 my-2 text-[9px] font-mono text-center">
-                      <div className="p-2 border border-purple-500/20 bg-purple-500/5 rounded-lg">
-                        <div className="font-bold text-purple-300">IngestionRuns</div>
-                        <div className="text-[7px] text-gray-500">PK: report_id</div>
-                      </div>
-                      <span className="text-gray-500 text-sm">◀ 1:N ▶</span>
-                      <div className="p-2 border border-blue-500/20 bg-blue-500/5 rounded-lg">
-                        <div className="font-bold text-blue-300">SalesRecords</div>
-                        <div className="text-[7px] text-gray-500">FK: report_id</div>
-                      </div>
-                    </div>
-
-                    <div className="text-[9px] font-mono text-gray-500 text-center border-t border-white/5 pt-1.5">
-                      SQLAlchemy ORM + PostgreSQL connections pool
-                    </div>
-                  </motion.div>
-
-                </div>
-              </div>
-
-              {/* RIGHT: Floating focal captions */}
-              <div className="relative h-[40vh] flex flex-col justify-center items-start pl-6 border-l border-white/5">
-                <AnimatePresence mode="wait">
-                  {currentCaption === 0 && (
-                    <motion.div
-                      key="caption-1"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
-                      transition={{ duration: 0.5 }}
-                      className="space-y-4"
-                    >
-                      <span className="text-xs uppercase font-bold tracking-[0.2em] text-blue-500">Centerpiece Project</span>
-                      <h2 className="text-3xl md:text-5xl font-extrabold uppercase tracking-tight">Mulai BI System</h2>
-                      <p className="text-sm md:text-base text-gray-400 font-light leading-relaxed max-w-xl">
-                        An autonomous multi-agent pipeline designed to solve the unstructured enterprise sales data bottleneck. As you scroll, watch the system disassemble into its three high-performance architectures.
-                      </p>
-                      <div className="flex items-center gap-4 text-xs font-mono text-gray-500">
-                        <span>↓ Scroll to Explode Layers</span>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {currentCaption === 1 && (
-                    <motion.div
-                      key="caption-2"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
-                      transition={{ duration: 0.5 }}
-                      className="space-y-4"
-                    >
-                      <span className="text-xs uppercase font-bold tracking-[0.2em] text-teal-400">Orchestration &amp; Routing</span>
-                      <h2 className="text-3xl md:text-5xl font-extrabold uppercase tracking-tight">Multi-Agent State Machine</h2>
-                      <p className="text-sm md:text-base text-gray-400 font-light leading-relaxed max-w-xl">
-                        Managed by a central LangGraph Supervisor. Documents are intelligently assigned, parsed using visual extraction matrices, mathematically analyzed for market outliers, and double-checked before exit.
-                      </p>
-                    </motion.div>
-                  )}
-
-                  {currentCaption >= 2 && (
-                    <motion.div
-                      key="caption-3"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
-                      transition={{ duration: 0.5 }}
-                      className="space-y-4"
-                    >
-                      <span className="text-xs uppercase font-bold tracking-[0.2em] text-purple-400">Resilient Persistence</span>
-                      <h2 className="text-3xl md:text-5xl font-extrabold uppercase tracking-tight">PostgreSQL &amp; SQLite Fallback</h2>
-                      <p className="text-sm md:text-base text-gray-400 font-light leading-relaxed max-w-xl">
-                        ORM database layers map structured models with pool configurations. The system is engineered to catch failures and automatically initialize a thread-safe SQLite fallback database to guarantee audit trail continuity.
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-            </div>
-          </motion.div>
-        </div>
-
-        {/* ── ALL PROJECTS SHOWCASE (Alternating Premium Cards inside the projects section) ── */}
-        <div className="relative px-4 py-28 max-w-7xl mx-auto space-y-24 border-t border-white/5">
-          <div className="text-center mb-16">
+      {/* ── SECTION 3: ALL PROJECTS SHOWCASE ─────────────────── */}
+      <section ref={inViewProjectsRef} id="projects" className="relative bg-black border-t border-white/5 z-20 px-4 py-28">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20">
             <span className="text-xs uppercase tracking-[0.2em] text-blue-500 font-bold">Engineering Index</span>
-            <h2 className="text-3xl md:text-5xl font-extrabold uppercase tracking-tight mt-2">Production Implementations</h2>
+            <h2 className="text-3xl md:text-5xl font-extrabold uppercase tracking-tight mt-2 text-white">Production Implementations</h2>
           </div>
 
           <div className="space-y-24">
@@ -753,9 +541,11 @@ TOTAL CASH: $139.32
                 <div className="space-y-3">
                   <div className="text-[11px] font-mono text-gray-500 uppercase tracking-widest font-bold">Languages</div>
                   <ul className="space-y-2 text-sm text-gray-300 font-light">
-                    <li>Python</li>
                     <li>Java</li>
+                    <li>Python</li>
                     <li>JavaScript</li>
+                    <li>TypeScript</li>
+                    <li>SQL</li>
                     <li>C++</li>
                     <li>C</li>
                   </ul>
@@ -765,11 +555,13 @@ TOTAL CASH: $139.32
                 <div className="space-y-3">
                   <div className="text-[11px] font-mono text-gray-500 uppercase tracking-widest font-bold">Frontend</div>
                   <ul className="space-y-2 text-sm text-gray-300 font-light">
-                    <li>React</li>
-                    <li>HTML / CSS</li>
-                    <li>Vite</li>
+                    <li>React.js</li>
+                    <li>TypeScript</li>
+                    <li>TailwindCSS</li>
+                    <li>HTML5 / CSS3</li>
                     <li>Axios</li>
-                    <li>Tailwind CSS</li>
+                    <li>Zustand</li>
+                    <li>Vite</li>
                     <li>Framer Motion</li>
                   </ul>
                 </div>
@@ -778,12 +570,14 @@ TOTAL CASH: $139.32
                 <div className="space-y-3">
                   <div className="text-[11px] font-mono text-gray-500 uppercase tracking-widest font-bold">Backend &amp; Database</div>
                   <ul className="space-y-2 text-sm text-gray-300 font-light">
-                    <li>FastAPI</li>
                     <li>Spring Boot</li>
-                    <li>SQLAlchemy ORM</li>
-                    <li>PostgreSQL</li>
-                    <li>MySQL</li>
-                    <li>MongoDB</li>
+                    <li>FastAPI</li>
+                    <li>REST APIs</li>
+                    <li>Microservices</li>
+                    <li>JWT Authentication</li>
+                    <li>OAuth 2.0</li>
+                    <li>SQLAlchemy</li>
+                    <li>Celery / Redis</li>
                   </ul>
                 </div>
 
@@ -793,6 +587,7 @@ TOTAL CASH: $139.32
                   <ul className="space-y-2 text-sm text-gray-300 font-light">
                     <li>Git / GitHub</li>
                     <li>Docker Containers</li>
+                    <li>AWS / GCP / Azure</li>
                     <li>Linux Systems</li>
                     <li>Jenkins CI/CD</li>
                     <li>Vercel &amp; Render</li>
@@ -808,6 +603,8 @@ TOTAL CASH: $139.32
                     <li>RAG Pipelines</li>
                     <li>LLM Integrations</li>
                     <li>Vector Databases</li>
+                    <li>Embeddings</li>
+                    <li>Prompt Engineering</li>
                   </ul>
                 </div>
 
@@ -867,7 +664,7 @@ TOTAL CASH: $139.32
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-6">
             <a
-              href="mailto:akshayreddych1508@gmail.com"
+              href="mailto:akshayreddychethireddy15@gmail.com"
               className="px-8 py-4 bg-white text-black font-bold rounded-xl flex items-center justify-center gap-2.5 hover:bg-gray-200 transition text-sm uppercase tracking-wider"
             >
               <HiMail className="text-lg" /> Send E-Mail
