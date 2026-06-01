@@ -328,20 +328,13 @@ TOTAL CASH: $139.32
           </div>
           
           {/* Scroll text masking layout */}
-          <div className="relative text-3xl md:text-6xl font-extrabold tracking-tight leading-tight select-none">
-            {/* Muted background text */}
-            <span className="text-white/10">
-              Built for calculated engineering risks. Architecting pipelines that transition static legacy systems into autonomous, self-healing networks.
-            </span>
-
-            {/* Glowing illuminated text linked to scroll progress */}
-            <motion.div 
-              style={{ opacity: philosophyProgress }}
-              className="absolute inset-0 text-white bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-white leading-tight"
-            >
-              Built for calculated engineering risks. Architecting pipelines that transition static legacy systems into autonomous, self-healing networks.
-            </motion.div>
-          </div>
+          <motion.div 
+            style={{ opacity: philosophyProgress }}
+            className="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight select-none bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-white"
+          >
+            Built for calculated engineering risks. <br className="hidden md:inline"/>
+            Architecting pipelines that transition static legacy systems into autonomous, self-healing networks.
+          </motion.div>
           
           <motion.p 
             initial={{ opacity: 0 }}
