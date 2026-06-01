@@ -66,17 +66,25 @@ function MagneticButton({
 
 export default function Home() {
   const { ref: homeRef } = useSectionInView("Home", 0.2);
-  const { ref: aboutRef } = useSectionInView("About", 0.5);
+  const { ref: inViewAboutRef } = useSectionInView("About", 0.5);
   const { ref: inViewProjectsRef } = useSectionInView("Projects", 0.3);
   const { ref: skillsRef } = useSectionInView("Skills", 0.5);
   const { ref: experienceRef } = useSectionInView("Experience", 0.3);
   const { ref: contactRef } = useSectionInView("Contact", 0.5);
+
+  const aboutSectionRef = useRef<any>(null);
+  const setAboutRefs = (node: HTMLDivElement | null) => {
+    aboutSectionRef.current = node;
+    inViewAboutRef(node);
+  };
 
   const projectsSectionRef = useRef<any>(null);
   const setProjectsRefs = (node: HTMLDivElement | null) => {
     projectsSectionRef.current = node;
     inViewProjectsRef(node);
   };
+
+  const centerpieceTrackRef = useRef<HTMLDivElement>(null);
 
   // Scroll triggers for Section 1 (Hero) & Section 2 (Philosophy) & Section 3 (Exploded View)
   const containerRef = useRef<HTMLDivElement>(null);
@@ -93,16 +101,20 @@ export default function Home() {
   const coreOpacity = useTransform(scrollYProgress, [0.03, 0.12, 0.24], [0, 0.9, 0]);
 
   // Section 2 (Philosophy) Scroll Transformations
-  const philosophyProgress = useTransform(scrollYProgress, [0.22, 0.35], [0, 1]);
-  const philosophyScale = useTransform(scrollYProgress, [0.2, 0.25, 0.35, 0.4], [0.95, 1, 1, 0.95]);
+  const { scrollYProgress: aboutScrollY } = useScroll({
+    target: aboutSectionRef,
+    offset: ["start end", "end start"],
+  });
+  const philosophyProgress = useTransform(aboutScrollY, [0.15, 0.45], [0, 1]);
+  const philosophyScale = useTransform(aboutScrollY, [0.1, 0.2, 0.5, 0.6], [0.96, 1, 1, 0.96]);
 
   // Section 3 (Mulai 3D Exploded Centerpiece) Transformations
-  const { scrollYProgress: projectsScrollY } = useScroll({
-    target: projectsSectionRef,
+  const { scrollYProgress: centerpieceScrollY } = useScroll({
+    target: centerpieceTrackRef,
     offset: ["start start", "end end"],
   });
-  const explodedProgress = useTransform(projectsScrollY, [0.05, 0.8], [0, 1]);
-  const centerpieceOpacity = useTransform(projectsScrollY, [0, 0.88, 0.98], [1, 1, 0]);
+  const explodedProgress = useTransform(centerpieceScrollY, [0.05, 0.8], [0, 1]);
+  const centerpieceOpacity = useTransform(centerpieceScrollY, [0, 0.85, 0.95], [1, 1, 0]);
   
   // Centerpiece layer transformations
   const layer1Z = useTransform(explodedProgress, [0, 0.5], [0, 140]); // Conversational AI Layer
@@ -306,7 +318,7 @@ TOTAL CASH: $139.32
       </section>
 
       {/* ── SECTION 2: THE PHILOSOPHY (Scroll-Driven Text Masking) ─────────────── */}
-      <section ref={aboutRef} id="about" className="relative min-h-[100vh] flex flex-col justify-center items-center px-4 bg-black overflow-hidden z-20 py-28 border-t border-white/5">
+      <section ref={setAboutRefs} id="about" className="relative min-h-[60vh] flex flex-col justify-center items-center px-4 bg-black overflow-hidden z-20 py-20 border-t border-white/5">
         <motion.div 
           style={{ scale: philosophyScale }}
           className="max-w-4xl text-center"
@@ -347,7 +359,7 @@ TOTAL CASH: $139.32
       <section ref={setProjectsRefs} id="projects" className="relative bg-black border-t border-white/5 z-20">
         
         {/* Sticky viewport container for Mulai 3D Exploded View */}
-        <div className="relative h-[250vh] w-full">
+        <div ref={centerpieceTrackRef} className="relative h-[180vh] w-full">
           <motion.div 
             style={{ opacity: centerpieceOpacity }}
             className="sticky top-0 h-[100vh] flex flex-col justify-center items-center overflow-hidden w-full px-4"

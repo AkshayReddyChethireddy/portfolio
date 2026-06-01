@@ -18,28 +18,36 @@ export const links = [
 
 export const experiencesData = [
   {
-    title: "Full-Stack Engineer",
+    title: "Software Engineer",
     location: "Mobifintree",
     description:
-      "Engineered high-performance product architectures, developing robust backends and dynamic, zero-latency user experiences. Spearheaded optimization workflows that dramatically cut load times and enhanced database security.",
+      "Contributed to building IndyaPay, a digital payment fintech platform. Engineered robust Restful APIs and backend services using Java, Spring Boot, and PostgreSQL, reducing latency by 40% and increasing throughput. Built responsive merchant and admin dashboards using React and TypeScript. Integrated third-party payment gateways with AWS API Gateway, OAuth, JWT, and automated CI/CD pipelines with Jenkins and Docker.",
     icon: React.createElement(SiSpeedtest),
-    date: "2025 - Present",
+    date: "Dec 2023 - Apr 2025",
   },
   {
     title: "Software Developer",
-    location: "IndyaPay",
+    location: "ThreePointO Labs (3.0 Labs)",
     description:
-      "Constructed and optimized high-throughput backend services. Partnered with engineering leads to design Restful APIs, implement secure JWT authentication protocols, and refine database queries—resulting in improved system reliability in a live financial environment.",
+      "Developed full-stack web applications and AI solutions using Python, FastAPI, React, TypeScript, and Azure. Built scalable Azure cloud-hosted backends with RESTful APIs in Docker containers. Integrated Retrieval-Augmented Generation (RAG) and LLM models using Azure OpenAI Service. Collaborated on key platforms including FundPitch, BFSI Skill Portal, Blue Cross Hyderabad Operations, and VDTS mobility products.",
     icon: React.createElement(CgWorkAlt),
-    date: "Dec 2023 - Dec 2024",
+    date: "Nov 2022 - Nov 2023",
   },
   {
-    title: "Computer Science Undergraduate",
+    title: "BS in Computer Science",
     location: "University of Massachusetts Lowell",
     description:
-      "Graduated with a Bachelor of Science in Computer Science. Focused extensively on algorithms, object-oriented programming, and system designs. Researched state-of-the-art architectures in agentic AI.",
+      "Graduated with a Bachelor of Science in Computer Science. Achieved a GPA of 3.88/4 and was named a Chancellor's List Student.",
     icon: React.createElement(LuGraduationCap),
-    date: "May 2025 - May 2026 (Graduated)",
+    date: "May 2025 - May 2026",
+  },
+  {
+    title: "BS in Computer Science (Abroad Program)",
+    location: "SR International Institute of Technology",
+    description:
+      "Completed a Bachelor of Science in Computer Science with a GPA of 9/10, leading to selection for the prestigious abroad program at UMass Lowell.",
+    icon: React.createElement(LuGraduationCap),
+    date: "Aug 2022 - Apr 2025",
   },
 ] as const;
 
@@ -60,31 +68,34 @@ export const projectsData = [
     imageUrl: mulaiImg,
   },
   {
-    title: "RepoAnalyzer",
+    title: "GitHub Repository Analyzer",
     description:
-      "An AI-powered GitHub repository analyzer that instantly understands complex codebases through hierarchical dependency mapping and visual complexity scoring. Employs a Retrieval-Augmented Generation (RAG) agent to answer codebase queries in real-time.",
+      "Engineered an AI-powered code intelligence platform that analyzes public GitHub repositories to generate technology stacks, summaries, and dependency maps. Designed a LangChain RAG pipeline using ChromaDB and Jina Embeddings for codebase Q&A. Developed asynchronous distributed workflows with Celery and Redis to support long-running analyzer tasks.",
     tags: [
       "React",
-      "Next.js",
       "TypeScript",
-      "Tailwind CSS",
-      "RAG",
-      "OpenAI",
-      "REST APIs",
+      "TailwindCSS",
+      "LangChain",
+      "ChromaDB",
+      "Redis",
+      "Celery",
+      "Groq",
+      "Docker",
     ],
     imageUrl: repoAnalyzerImg,
   },
   {
     title: "SkillSync",
     description:
-      "A personal practice momentum tracker that monitors learning consistency over time. Automatically detects stagnation cycles, tracks streaks with built-in grace periods, and dispatches automated notifications.",
+      "A learning analytics SaaS platform tracking progression and practice momentum. Developed a FastAPI backend with JWT, SQLAlchemy ORM, and PostgreSQL for activity and streak calculations. Built a React and TypeScript frontend using Zustand for global state management and Axios for secure API transactions.",
     tags: [
       "React",
-      "Next.js",
       "TypeScript",
-      "Tailwind CSS",
+      "FastAPI",
+      "Zustand",
+      "SQLAlchemy",
       "PostgreSQL",
-      "REST APIs",
+      "Render",
     ],
     imageUrl: skillSyncImg,
   },
@@ -105,56 +116,71 @@ export const projectsData = [
 
 export const skillsData = [
   // Programming Languages
-  "Python",
   "Java",
+  "Python",
   "JavaScript",
+  "TypeScript",
+  "SQL",
   "C++",
   "C",
-  
-  // Frontend
-  "React",
-  "HTML",
-  "CSS",
-  "Vite",
-  "Axios",
-  "Tailwind CSS",
-  "Framer Motion",
   
   // Backend
   "Spring Boot",
   "FastAPI",
-  "SQLAlchemy",
-  "Restful API",
+  "REST APIs",
+  "Microservices",
   "JWT Authentication",
+  "OAuth 2.0",
+  "SQLAlchemy",
+  "Celery",
+  "Redis",
+  
+  // Frontend
+  "React.js",
+  "TypeScript",
+  "TailwindCSS",
+  "HTML5",
+  "CSS3",
+  "Axios",
+  "Zustand",
+  "Vite",
+  "Framer Motion",
   
   // Databases
   "PostgreSQL",
   "MySQL",
   "MongoDB",
-  "SQL",
+  "ChromaDB",
   
-  // Tools & Platforms
-  "Git/GitHub",
-  "Linux",
-  "VS Code",
+  // Cloud & DevOps
+  "AWS",
+  "GCP",
+  "Azure",
+  "Docker",
   "Jenkins",
+  "CI/CD",
+  "Linux",
+  "Git/GitHub",
   "Vercel",
   "Render",
-  "Docker",
+  
+  // Testing
+  "JUnit",
+  "PyTest",
+  "Jest",
+  
+  // AI & Machine Learning
+  "LangChain",
+  "LangGraph",
+  "Retrieval-Augmented Generation (RAG)",
+  "Vector Databases",
+  "Embeddings",
+  "Prompt Engineering",
   
   // Core Concepts
+  "Data Structures & Algorithms",
   "Object-Oriented Programming",
-  "Data Structures",
-  "Algorithms",
-  "Problem Solving",
-  "Debugging",
-  "Testing",
-  "API Design",
-  
-  // AI / Machine Learning
-  "LangGraph",
-  "LangChain",
-  "Retrieval Augmented Generation (RAG)",
-  "LLM Integration",
-  "Vector Databases",
+  "Design Patterns",
+  "Agile/Scrum",
+  "System Design",
 ] as const;
