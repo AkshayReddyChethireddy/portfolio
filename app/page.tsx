@@ -105,24 +105,70 @@ export default function Home() {
     { sender: "ai", text: "Welcome. Ask me about Akshay's technical philosophy, the Mulai BI System, or how he operates." }
   ]);
   const [isTyping, setIsTyping] = useState(false);
+  const [chatInput, setChatInput] = useState("");
   const chatbotEndRef = useRef<HTMLDivElement>(null);
 
-  const botResponses = {
-    philosophy: "Akshay builds for 'calculated engineering risks.' He specializes in transitioning architectures from linear API chains into multi-agent systems with self-healing, transactional fail-safes.",
-    skills: "His core arsenal is highly production-tested:\n• Languages: Python, Java, JavaScript, C++\n• Backend: FastAPI, Spring Boot, SQLAlchemy, REST APIs\n• AI/ML: LangGraph, LangChain, RAG, Vector Databases\n• Databases: PostgreSQL, MySQL, MongoDB",
-    experience: "Akshay has 2+ years of professional experience across Mobifintree and ThreePointO Labs, focusing on high-throughput backend services, full-stack React dashboards, and robust AI integrations.",
-    mulai: "The Mulai BI System is a stateful LangGraph pipeline. It utilizes vision-capable models (Gemini-1.5-Flash) to parse unstructured invoices and receipts, run statistical anomaly math, and persist transactions with Postgres connection pooling."
+  const getAIResponse = (query: string): string => {
+    const q = query.toLowerCase();
+    if (q.includes("spring") || q.includes("java") || q.includes("fintech") || q.includes("mobifintree") || q.includes("indyapay")) {
+      return "At Mobifintree, I engineered IndyaPay (a robust digital payment platform) using Java, Spring Boot, and PostgreSQL. I wrote secure REST APIs, integrated third-party payment gateways with OAuth/JWT, set up Docker & Jenkins CI/CD pipelines, and reduced latency by 40% while increasing throughput.";
+    }
+    if (q.includes("fastapi") || q.includes("python") || q.includes("threepointo") || q.includes("labs") || q.includes("agent") || q.includes("rag") || q.includes("langchain") || q.includes("langgraph")) {
+      return "At ThreePointO Labs, I designed autonomous AI solutions using Python, FastAPI, and Azure. I engineered stateful AI agents with LangGraph, built RAG pipelines (LangChain + ChromaDB + Azure OpenAI), containerized backend microservices in Docker, and collaborated on high-performance healthcare & mobility products.";
+    }
+    if (q.includes("lowell") || q.includes("education") || q.includes("university") || q.includes("gpa") || q.includes("study") || q.includes("sr international") || q.includes("degree") || q.includes("graduat")) {
+      return "I graduated from the University of Massachusetts Lowell with a BS in Computer Science (May 2026), achieving a GPA of 3.88/4 and Chancellor's List honors. Prior to that, I completed my CS coursework at SR International Institute of Technology (GPA: 9/10), which selected me for the Lowell abroad program.";
+    }
+    if (q.includes("contact") || q.includes("email") || q.includes("phone") || q.includes("reach") || q.includes("hire") || q.includes("social") || q.includes("github") || q.includes("linkedin") || q.includes("call") || q.includes("meet")) {
+      return "Let's connect! You can reach me via email at akshayreddychethireddy15@gmail.com or call me at +1 (617) 917-4554. You can also view my LinkedIn (linkedin.com/in/akshay-reddy-chethireddy) or my GitHub (github.com/AkshayReddyChethireddy). I'm excited to discuss how I can contribute to your team!";
+    }
+    if (q.includes("project") || q.includes("mulai") || q.includes("repo") || q.includes("analyzer") || q.includes("skillsync") || q.includes("bookmyshow") || q.includes("portfolio")) {
+      return "I have engineered four major systems:\n1. Mulai BI System: Stateful LangGraph pipeline parsing unstructured invoices (Gemini 1.5 Flash) with Postgres connection pools.\n2. GitHub Repository Analyzer: Codebase Q&A platform utilizing LangChain, ChromaDB, Celery, and Redis.\n3. SkillSync: Learning SaaS using FastAPI, Zustand, and SQLAlchemy.\n4. BookMyShow Clone: High-fidelity React/Next.js ticket checkout flow.";
+    }
+    if (q.includes("skills") || q.includes("tech") || q.includes("stack") || q.includes("language") || q.includes("database") || q.includes("devops") || q.includes("aws") || q.includes("docker")) {
+      return "My core stack includes:\n• Languages: Java, Python, C++, SQL, TypeScript\n• Backend: Spring Boot, FastAPI, REST Microservices, Celery/Redis\n• Frontend: React, Next.js, TailwindCSS, Zustand, Framer Motion\n• Databases: PostgreSQL, MySQL, MongoDB, ChromaDB\n• Cloud/DevOps: AWS, Azure, Docker, Jenkins CI/CD, Linux";
+    }
+    if (q.includes("philosophy") || q.includes("operate") || q.includes("why") || q.includes("goal")) {
+      return "I specialize in calculated engineering risks: designing robust, high-performance systems with self-healing, transactional fail-safes. I bridge high-throughput backend automation with fluid, delightful frontends to create premium software products.";
+    }
+    
+    // Comprehensive Fallback response that satisfies any recruiter!
+    return "I'd love to answer that! To summarize my background, I am a US-based Software Engineer with 2+ years of experience specializing in high-throughput backend engineering (Java/Spring Boot, Python/FastAPI), full-stack React dashboards, and agentic AI systems (LangGraph, LangChain, RAG).\n\nFeel free to ask me specifically about:\n• My work at Mobifintree or ThreePointO Labs\n• My BS in Computer Science from UMass Lowell (GPA 3.88)\n• Flagship projects like Mulai BI or GitHub Analyzer\n• Setting up a technical interview or phone call (+1 (617) 917-4554)\n\nWhat would you like to explore next?";
   };
 
-  const handleChatQuery = (key: keyof typeof botResponses, queryText: string) => {
+  const triggerAIResponse = (queryText: string) => {
     if (isTyping) return;
+    
+    // Add user's message
     setMessages((prev) => [...prev, { sender: "user", text: queryText }]);
     setIsTyping(true);
 
+    const fullResponse = getAIResponse(queryText);
+
     setTimeout(() => {
-      setMessages((prev) => [...prev, { sender: "ai", text: botResponses[key] }]);
+      // Add empty message that we will stream into
+      setMessages((prev) => [...prev, { sender: "ai", text: "" }]);
       setIsTyping(false);
-    }, 1200);
+
+      let currentText = "";
+      let index = 0;
+      
+      const interval = setInterval(() => {
+        if (index < fullResponse.length) {
+          currentText += fullResponse[index];
+          setMessages((prev) => {
+            const updated = [...prev];
+            if (updated.length > 0) {
+              updated[updated.length - 1] = { sender: "ai", text: currentText };
+            }
+            return updated;
+          });
+          index++;
+        } else {
+          clearInterval(interval);
+        }
+      }, 6); // Fast fluid typing speed
+    }, 500);
   };
 
   useEffect(() => {
@@ -130,6 +176,73 @@ export default function Home() {
       chatbotEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages, isTyping]);
+
+  // ── STATE: Unified Core Competencies Filtering ─────────────────────────────
+  const [selectedSkillCategory, setSelectedSkillCategory] = useState<"All" | "Languages" | "Backend" | "Frontend" | "DevOps" | "AI/ML">("All");
+
+  const skillCategories = [
+    {
+      name: "Languages",
+      skills: [
+        { name: "Java", tier: "Expert (Spring Boot & Fintech)" },
+        { name: "Python", tier: "Expert (FastAPI & Agentic AI)" },
+        { name: "JavaScript", tier: "Advanced (Modern ES6+)" },
+        { name: "TypeScript", tier: "Advanced (Type-safe apps)" },
+        { name: "SQL", tier: "Advanced (PostgreSQL & MySQL)" },
+        { name: "C++", tier: "Competent (Algorithms)" },
+        { name: "C", tier: "Competent (Systems)" }
+      ]
+    },
+    {
+      name: "Frontend",
+      skills: [
+        { name: "React.js", tier: "Expert (SPA & SSR)" },
+        { name: "TypeScript", tier: "Advanced (Type-safe frontends)" },
+        { name: "TailwindCSS", tier: "Expert (Responsive layouts)" },
+        { name: "HTML5 / CSS3", tier: "Advanced (Semantic markup)" },
+        { name: "Axios", tier: "Advanced (Secure client calls)" },
+        { name: "Zustand", tier: "Advanced (Lightweight state)" },
+        { name: "Vite", tier: "Advanced (Rapid bundling)" },
+        { name: "Framer Motion", tier: "Advanced (Glow & Motion)" }
+      ]
+    },
+    {
+      name: "Backend",
+      skills: [
+        { name: "Spring Boot", tier: "Expert (High-throughput APIs)" },
+        { name: "FastAPI", tier: "Expert (High-speed Python microservices)" },
+        { name: "REST APIs", tier: "Expert (Robust API Design)" },
+        { name: "Microservices", tier: "Advanced (Distributed fabrics)" },
+        { name: "JWT Authentication", tier: "Advanced (Security tokens)" },
+        { name: "OAuth 2.0", tier: "Advanced (Third-party auth)" },
+        { name: "SQLAlchemy", tier: "Advanced (Python ORM pooling)" },
+        { name: "Celery / Redis", tier: "Advanced (Async worker chains)" }
+      ]
+    },
+    {
+      name: "DevOps",
+      skills: [
+        { name: "Git / GitHub", tier: "Advanced (Version control & CI)" },
+        { name: "Docker Containers", tier: "Advanced (Microservice bundling)" },
+        { name: "AWS / GCP / Azure", tier: "Advanced (Cloud platforms)" },
+        { name: "Linux Systems", tier: "Advanced (Scripting & servers)" },
+        { name: "Jenkins CI/CD", tier: "Advanced (Automated builds)" },
+        { name: "Vercel & Render", tier: "Advanced (Rapid deployments)" }
+      ]
+    },
+    {
+      name: "AI/ML",
+      skills: [
+        { name: "LangGraph", tier: "Expert (Stateful agent machines)" },
+        { name: "LangChain", tier: "Expert (LLM chaining)" },
+        { name: "RAG Pipelines", tier: "Expert (Vector embeddings retrieval)" },
+        { name: "LLM Integrations", tier: "Expert (OpenAI & Gemini API)" },
+        { name: "Vector Databases", tier: "Advanced (ChromaDB & indexing)" },
+        { name: "Embeddings", tier: "Advanced (Jina & OpenAI embeds)" },
+        { name: "Prompt Engineering", tier: "Advanced (Optimal context control)" }
+      ]
+    }
+  ];
 
   // ── STATE: Pipeline Receipts Ingest Simulator ──────────────────────────────
   const [pipelineStep, setPipelineStep] = useState(0);
@@ -388,7 +501,7 @@ TOTAL CASH: $139.32
                 </div>
                 
                 {/* Chat window body */}
-                <div className="space-y-4 h-[350px] overflow-y-auto pr-2 no-scrollbar border border-white/5 p-4 rounded-xl bg-black/40">
+                <div className="space-y-4 h-[280px] overflow-y-auto pr-2 no-scrollbar border border-white/5 p-4 rounded-xl bg-black/40">
                   {messages.map((msg, idx) => (
                     <div key={idx} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
                       <div className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-xs leading-relaxed ${
@@ -409,35 +522,62 @@ TOTAL CASH: $139.32
                   )}
                   <div ref={chatbotEndRef} />
                 </div>
+
+                {/* Custom input bar */}
+                <form 
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (!chatInput.trim() || isTyping) return;
+                    triggerAIResponse(chatInput.trim());
+                    setChatInput("");
+                  }}
+                  className="mt-3 flex gap-2"
+                >
+                  <input
+                    type="text"
+                    value={chatInput}
+                    onChange={(e) => setChatInput(e.target.value)}
+                    placeholder="Type custom question (e.g. Do you know Spring Boot?)..."
+                    disabled={isTyping}
+                    className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-blue-500/50 transition duration-300 disabled:opacity-50"
+                  />
+                  <button
+                    type="submit"
+                    disabled={!chatInput.trim() || isTyping}
+                    className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl px-4 py-2.5 transition duration-300 disabled:bg-white/5 disabled:text-gray-500"
+                  >
+                    Send
+                  </button>
+                </form>
               </div>
 
               {/* Interaction triggers */}
-              <div className="mt-4 space-y-4">
-                <div className="text-[11px] text-gray-500 font-medium uppercase tracking-wide">Select a query prompt:</div>
-                <div className="flex flex-wrap gap-2">
+              <div className="mt-3.5 space-y-2">
+                <div className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">Select a quick suggestion:</div>
+                <div className="flex flex-wrap gap-1.5">
                   <button
-                    onClick={() => handleChatQuery("philosophy", "What is your core engineering philosophy?")}
-                    className="px-3.5 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-left text-xs font-medium text-gray-300 transition"
+                    onClick={() => triggerAIResponse("What is your core engineering philosophy?")}
+                    className="px-2.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-left text-[11px] font-medium text-gray-300 transition"
                   >
-                    💡 Core Philosophy
+                    💡 Philosophy
                   </button>
                   <button
-                    onClick={() => handleChatQuery("skills", "What is your main technology stack?")}
-                    className="px-3.5 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-left text-xs font-medium text-gray-300 transition"
+                    onClick={() => triggerAIResponse("What is your main technology stack?")}
+                    className="px-2.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-left text-[11px] font-medium text-gray-300 transition"
                   >
-                    🛠️ Main Tech Stack
+                    🛠️ Tech Stack
                   </button>
                   <button
-                    onClick={() => handleChatQuery("experience", "Tell me about your experience at Mobifintree.")}
-                    className="px-3.5 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-left text-xs font-medium text-gray-300 transition"
+                    onClick={() => triggerAIResponse("Tell me about your experience at Mobifintree.")}
+                    className="px-2.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-left text-[11px] font-medium text-gray-300 transition"
                   >
-                    💼 Professional Experience
+                    💼 Experience
                   </button>
                   <button
-                    onClick={() => handleChatQuery("mulai", "Explain the Mulai BI System multi-agent model.")}
-                    className="px-3.5 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-left text-xs font-medium text-gray-300 transition"
+                    onClick={() => triggerAIResponse("Tell me about the Mulai BI System.")}
+                    className="px-2.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-left text-[11px] font-medium text-gray-300 transition"
                   >
-                    🤖 Mulai BI Architecture
+                    🤖 Mulai BI
                   </button>
                 </div>
               </div>
@@ -533,81 +673,62 @@ TOTAL CASH: $139.32
 
             {/* BENTO CARD 3: Complete Technical Skills Grid (lg:col-span-12) */}
             <div className="lg:col-span-12 apple-glass rounded-3xl p-8 border border-white/5">
-              <h3 className="text-xl font-bold uppercase tracking-wider text-white mb-8 text-center md:text-left">Unified Core Competencies</h3>
               
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+              <div className="flex flex-col md:flex-row md:justify-between md:items-center border-b border-white/10 pb-6 mb-8 gap-4">
+                <h3 className="text-xl font-bold uppercase tracking-wider text-white">Unified Core Competencies</h3>
                 
-                {/* Languages */}
-                <div className="space-y-3">
-                  <div className="text-[11px] font-mono text-gray-500 uppercase tracking-widest font-bold">Languages</div>
-                  <ul className="space-y-2 text-sm text-gray-300 font-light">
-                    <li>Java</li>
-                    <li>Python</li>
-                    <li>JavaScript</li>
-                    <li>TypeScript</li>
-                    <li>SQL</li>
-                    <li>C++</li>
-                    <li>C</li>
-                  </ul>
+                {/* Category filter tabs */}
+                <div className="flex flex-wrap gap-1.5">
+                  {(["All", "Languages", "Backend", "Frontend", "DevOps", "AI/ML"] as const).map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => setSelectedSkillCategory(cat)}
+                      className={`px-3.5 py-1.5 rounded-full text-xs font-mono tracking-wide border transition duration-300 ${
+                        selectedSkillCategory === cat
+                          ? "bg-blue-600 border-blue-500 text-white shadow-glow"
+                          : "bg-white/5 border-white/10 text-gray-400 hover:text-white"
+                      }`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
                 </div>
-
-                {/* Frontend */}
-                <div className="space-y-3">
-                  <div className="text-[11px] font-mono text-gray-500 uppercase tracking-widest font-bold">Frontend</div>
-                  <ul className="space-y-2 text-sm text-gray-300 font-light">
-                    <li>React.js</li>
-                    <li>TypeScript</li>
-                    <li>TailwindCSS</li>
-                    <li>HTML5 / CSS3</li>
-                    <li>Axios</li>
-                    <li>Zustand</li>
-                    <li>Vite</li>
-                    <li>Framer Motion</li>
-                  </ul>
-                </div>
-
-                {/* Backend */}
-                <div className="space-y-3">
-                  <div className="text-[11px] font-mono text-gray-500 uppercase tracking-widest font-bold">Backend &amp; Database</div>
-                  <ul className="space-y-2 text-sm text-gray-300 font-light">
-                    <li>Spring Boot</li>
-                    <li>FastAPI</li>
-                    <li>REST APIs</li>
-                    <li>Microservices</li>
-                    <li>JWT Authentication</li>
-                    <li>OAuth 2.0</li>
-                    <li>SQLAlchemy</li>
-                    <li>Celery / Redis</li>
-                  </ul>
-                </div>
-
-                {/* Platforms & Tools */}
-                <div className="space-y-3">
-                  <div className="text-[11px] font-mono text-gray-500 uppercase tracking-widest font-bold">Tools / DevOps</div>
-                  <ul className="space-y-2 text-sm text-gray-300 font-light">
-                    <li>Git / GitHub</li>
-                    <li>Docker Containers</li>
-                    <li>AWS / GCP / Azure</li>
-                    <li>Linux Systems</li>
-                    <li>Jenkins CI/CD</li>
-                    <li>Vercel &amp; Render</li>
-                  </ul>
-                </div>
-
-                {/* AI / Machine Learning */}
-                <div className="space-y-3">
-                  <div className="text-[11px] font-mono text-gray-500 uppercase tracking-widest font-bold text-blue-400">AI / Machine Learning</div>
-                  <ul className="space-y-2 text-sm text-gray-300 font-light">
-                    <li className="font-bold text-white">LangGraph</li>
-                    <li className="font-bold text-white">LangChain</li>
-                    <li>RAG Pipelines</li>
-                    <li>LLM Integrations</li>
-                    <li>Vector Databases</li>
-                    <li>Embeddings</li>
-                    <li>Prompt Engineering</li>
-                  </ul>
-                </div>
-
+              </div>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                {skillCategories
+                  .filter((cat) => 
+                    selectedSkillCategory === "All" || 
+                    cat.name === selectedSkillCategory ||
+                    (selectedSkillCategory === "DevOps" && cat.name === "DevOps") ||
+                    (selectedSkillCategory === "AI/ML" && cat.name === "AI/ML")
+                  )
+                  .map((cat, idx) => (
+                    <div 
+                      key={idx} 
+                      className="space-y-4 p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition duration-300"
+                    >
+                      <div className="text-[11px] font-mono text-gray-500 uppercase tracking-widest font-bold border-b border-white/5 pb-2">
+                        {cat.name}
+                      </div>
+                      <ul className="space-y-2.5">
+                        {cat.skills.map((skill, sIdx) => (
+                          <li 
+                            key={sIdx} 
+                            className="group/skill relative flex flex-col cursor-default"
+                          >
+                            <span className="text-sm text-gray-300 font-light group-hover/skill:text-blue-400 transition-colors duration-200">
+                              {skill.name}
+                            </span>
+                            {/* Subtle metadata tier description showing on hover */}
+                            <span className="text-[9px] font-mono text-gray-500 h-0 opacity-0 group-hover/skill:h-auto group-hover/skill:opacity-100 transition-all duration-300 overflow-hidden leading-tight mt-0.5">
+                              {skill.tier}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
               </div>
             </div>
 
