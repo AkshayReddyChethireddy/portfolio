@@ -33,7 +33,7 @@ export const sendEmail = async (formData: FormData) => {
       from: "Portfolio Contact <onboarding@resend.dev>",
 
       // 🔐 REQUIRED: Resend test mode allows ONLY this email
-      to: "akshayreddych1508@gmail.com",
+      to: "akshayreddychethireddy15@gmail.com",
 
       subject: "New message from portfolio",
       reply_to: senderEmail as string,

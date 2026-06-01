@@ -151,6 +151,9 @@ export default function Home() {
   const triggerAIResponse = (queryText: string) => {
     if (isTyping) return;
     
+    // Log interaction to telemetry
+    logTelemetry(`Chat Q&A query submitted: "${queryText.substring(0, 35)}${queryText.length > 35 ? '...' : ''}"`);
+
     // Add user's message
     setMessages((prev) => [...prev, { sender: "user", text: queryText }]);
     setIsTyping(true);
@@ -188,6 +191,54 @@ export default function Home() {
       chatbotEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages, isTyping]);
+
+  // ── STATE: Recruiter Telemetry ──────────────────────────────────────────────
+  const [telemetryLogs, setTelemetryLogs] = useState<string[]>([]);
+  const [activeBentoTab, setActiveBentoTab] = useState<"pipeline" | "telemetry">("pipeline");
+
+  const logTelemetry = (eventText: string) => {
+    const timestamp = new Date().toLocaleTimeString();
+    setTelemetryLogs((prev) => [`[${timestamp}] ${eventText}`, ...prev]); // Prepend to show latest logs first
+  };
+
+  useEffect(() => {
+    const userAgent = typeof window !== "undefined" ? window.navigator.userAgent : "";
+    let os = "Unknown OS";
+    if (userAgent.includes("Win")) os = "Windows";
+    else if (userAgent.includes("Mac")) os = "macOS";
+    else if (userAgent.includes("Linux")) os = "Linux";
+    else if (userAgent.includes("Android")) os = "Android";
+    else if (userAgent.includes("like Mac")) os = "iOS";
+
+    logTelemetry(`Session initialized. Client OS: ${os}`);
+    logTelemetry(`Telemetry telemetry streaming active. Monitoring recruiter behavior...`);
+
+    // Let's also log scroll milestones
+    let scroll25 = false;
+    let scroll50 = false;
+    let scroll75 = false;
+    
+    const handleScroll = () => {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = (window.scrollY / Math.max(docHeight, 1)) * 100;
+      
+      if (pct >= 25 && !scroll25) {
+        logTelemetry("Event: Scroll depth reached 25% (About/Philosophy Section)");
+        scroll25 = true;
+      }
+      if (pct >= 50 && !scroll50) {
+        logTelemetry("Event: Scroll depth reached 50% (Flagship Projects Index)");
+        scroll50 = true;
+      }
+      if (pct >= 75 && !scroll75) {
+        logTelemetry("Event: Scroll depth reached 75% (Unified Core Competencies)");
+        scroll75 = true;
+      }
+    };
+    
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // ── STATE: Unified Core Competencies Filtering ─────────────────────────────
   const [selectedSkillCategory, setSelectedSkillCategory] = useState<"All" | "Languages" | "Backend" | "Frontend" | "DevOps" | "AI/ML">("All");
@@ -279,6 +330,7 @@ TOTAL CASH: $139.32
 
   const runPipelineDemo = () => {
     if (isPipelineRunning) return;
+    logTelemetry("Event: Run Ingest Pipeline triggered. Executing multi-agent receipt processing...");
     setIsPipelineRunning(true);
     setPipelineStep(1);
     setPipelineLogs(["[Supervisor] New document received: sample_report.txt. Initializing multi-agent pipeline..."]);
@@ -378,6 +430,7 @@ TOTAL CASH: $139.32
               href="https://github.com/AkshayReddyChethireddy" 
               target="_blank" 
               rel="noopener noreferrer"
+              onClick={() => logTelemetry("Outbound Action: GitHub profile link clicked")}
               className="px-6 py-3 border border-white/20 rounded-full flex items-center gap-2 hover:bg-white/5 transition bg-black/40"
             >
               <BsGithub /> GitHub
@@ -456,7 +509,12 @@ TOTAL CASH: $139.32
                 <div className="flex-1 space-y-6">
                   <div className="flex justify-between items-start">
                     <span className="text-[10px] font-mono uppercase text-blue-400 tracking-widest">Project 0{index + 1}</span>
-                    <a href="https://github.com/AkshayReddyChethireddy" target="_blank" rel="noopener noreferrer">
+                    <a 
+                      href="https://github.com/AkshayReddyChethireddy" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      onClick={() => logTelemetry(`Outbound Action: GitHub repo link for project "${project.title}" clicked`)}
+                    >
                       <BsArrowUpRight className="text-gray-500 hover:text-blue-400 transition-colors text-lg" />
                     </a>
                   </div>
@@ -601,85 +659,151 @@ TOTAL CASH: $139.32
               <div className="absolute top-0 right-0 w-80 h-80 bg-purple-500/5 rounded-full blur-[6rem] -z-10"></div>
               
               <div>
-                <div className="flex justify-between items-center border-b border-white/10 pb-4 mb-4">
-                  <div className="flex items-center gap-2">
-                    <BsTerminal className="text-purple-400 text-sm" />
-                    <h3 className="text-sm font-bold uppercase tracking-widest text-white">Ingest Pipeline Demo</h3>
+                <div className="flex justify-between items-center border-b border-white/10 pb-4 mb-4 gap-2 flex-wrap">
+                  {/* Tab triggers */}
+                  <div className="flex gap-1.5">
+                    <button
+                      onClick={() => setActiveBentoTab("pipeline")}
+                      className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1.5 rounded-lg border transition ${
+                        activeBentoTab === "pipeline"
+                          ? "bg-purple-600/30 border-purple-500 text-purple-200"
+                          : "bg-white/5 border-white/10 text-gray-400 hover:text-white"
+                      }`}
+                    >
+                      <BsTerminal className="text-xs" /> Ingest Pipeline
+                    </button>
+                    <button
+                      onClick={() => setActiveBentoTab("telemetry")}
+                      className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1.5 rounded-lg border transition ${
+                        activeBentoTab === "telemetry"
+                          ? "bg-blue-600/30 border-blue-500 text-blue-200"
+                          : "bg-white/5 border-white/10 text-gray-400 hover:text-white"
+                      }`}
+                    >
+                      <BsCpu className="text-xs" /> Recruiter Telemetry
+                    </button>
                   </div>
                   
                   {/* Step status dots */}
-                  <div className="flex gap-1">
-                    {[1, 2, 3, 4, 5].map((step) => (
-                      <span 
-                        key={step} 
-                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                          pipelineStep >= step 
-                            ? step === 5 ? "bg-green-500" : "bg-purple-500" 
-                            : "bg-white/10"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-[330px] items-stretch">
-                  
-                  {/* Input receipt view */}
-                  <div className="bg-zinc-950/60 p-3 rounded-xl border border-white/5 font-mono text-[9px] text-gray-400 overflow-y-auto no-scrollbar flex flex-col justify-between select-none">
-                    <div>
-                      <div className="text-[10px] text-gray-500 font-bold uppercase mb-2">Source Document:</div>
-                      <pre className="whitespace-pre-wrap">{sampleReceipt}</pre>
+                  {activeBentoTab === "pipeline" && (
+                    <div className="flex gap-1">
+                      {[1, 2, 3, 4, 5].map((step) => (
+                        <span 
+                          key={step} 
+                          className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                            pipelineStep >= step 
+                              ? step === 5 ? "bg-green-500" : "bg-purple-500" 
+                              : "bg-white/10"
+                          }`}
+                        />
+                      ))}
                     </div>
-                    <div className="text-[8px] text-zinc-600 mt-2">Ready to ingest &amp; analyze...</div>
-                  </div>
-
-                  {/* Streaming logs view */}
-                  <div className="bg-black/80 p-3 rounded-xl border border-white/5 font-mono text-[9px] text-gray-300 overflow-y-auto no-scrollbar">
-                    <div className="text-[10px] text-zinc-500 font-bold uppercase mb-2 flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse"></span>
-                      Graph updates:
-                    </div>
-                    {pipelineLogs.length === 0 ? (
-                      <span className="text-zinc-600 italic">Logs will stream here...</span>
-                    ) : (
-                      <div className="space-y-2">
-                        {pipelineLogs.map((log, idx) => (
-                          <div key={idx} className={`${
-                            log.startsWith("🚨") 
-                              ? "text-red-400 font-bold" 
-                              : log.startsWith("✔") 
-                                ? "text-green-400 font-bold" 
-                                : "text-gray-300"
-                          }`}>
-                            {log}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                </div>
-              </div>
-
-              {/* execution CTA */}
-              <div className="mt-4">
-                <MagneticButton
-                  onClick={runPipelineDemo}
-                  className={`w-full py-4 rounded-xl font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 border transition ${
-                    isPipelineRunning 
-                      ? "bg-purple-950/20 border-purple-500/30 text-purple-400 cursor-not-allowed" 
-                      : "bg-purple-600 border-purple-500 text-white hover:bg-purple-700"
-                  }`}
-                >
-                  {isPipelineRunning ? (
-                    <>Running Agent Graph...</>
-                  ) : (
-                    <>
-                      <BsPlayFill className="text-lg" /> Run Pipeline Ingest
-                    </>
                   )}
-                </MagneticButton>
+                </div>
+
+                {activeBentoTab === "pipeline" ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-[330px] items-stretch">
+                    
+                    {/* Input receipt view */}
+                    <div className="bg-zinc-950/60 p-3 rounded-xl border border-white/5 font-mono text-[9px] text-gray-400 overflow-y-auto no-scrollbar flex flex-col justify-between select-none">
+                      <div>
+                        <div className="text-[10px] text-gray-500 font-bold uppercase mb-2">Source Document:</div>
+                        <pre className="whitespace-pre-wrap">{sampleReceipt}</pre>
+                      </div>
+                      <div className="text-[8px] text-zinc-600 mt-2">Ready to ingest &amp; analyze...</div>
+                    </div>
+
+                    {/* Streaming logs view */}
+                    <div className="bg-black/80 p-3 rounded-xl border border-white/5 font-mono text-[9px] text-gray-300 overflow-y-auto no-scrollbar">
+                      <div className="text-[10px] text-zinc-500 font-bold uppercase mb-2 flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse"></span>
+                        Graph updates:
+                      </div>
+                      {pipelineLogs.length === 0 ? (
+                        <span className="text-zinc-600 italic">Logs will stream here...</span>
+                      ) : (
+                        <div className="space-y-2">
+                          {pipelineLogs.map((log, idx) => (
+                            <div key={idx} className={`${
+                              log.startsWith("🚨") 
+                                ? "text-red-400 font-bold" 
+                                : log.startsWith("✔") 
+                                  ? "text-green-400 font-bold" 
+                                  : "text-gray-300"
+                            }`}>
+                              {log}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                  </div>
+                ) : (
+                  /* Telemetry Stream View */
+                  <div className="bg-black/90 p-4 rounded-xl border border-white/5 font-mono text-[9px] text-gray-300 h-[330px] overflow-y-auto no-scrollbar flex flex-col justify-between">
+                    <div>
+                      <div className="text-[10px] text-zinc-500 font-bold uppercase mb-3 flex items-center justify-between border-b border-white/5 pb-2">
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                          Live Telemetry Console:
+                        </div>
+                        <span className="text-[8px] text-zinc-600 font-normal">Real-time Stream</span>
+                      </div>
+                      
+                      <div className="space-y-2 h-[230px] overflow-y-auto pr-1 no-scrollbar">
+                        {telemetryLogs.map((log, idx) => {
+                          let colorClass = "text-gray-300";
+                          if (log.includes("Session")) colorClass = "text-blue-400 font-bold";
+                          else if (log.includes("Event: Run") || log.includes("Ingest")) colorClass = "text-purple-400 font-bold";
+                          else if (log.includes("Chat Q&A")) colorClass = "text-green-400";
+                          else if (log.includes("Scroll")) colorClass = "text-amber-400";
+                          else if (log.includes("Competency")) colorClass = "text-teal-400";
+                          else if (log.includes("Outbound")) colorClass = "text-red-400";
+
+                          return (
+                            <div key={idx} className={`${colorClass} leading-relaxed`}>
+                              {log}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    <div className="text-[8px] text-zinc-600 border-t border-white/5 pt-2 mt-2 leading-snug">
+                      ℹ This panel streams your current session interactions. Overall visitor counts, locations, and click analytics are logged securely to Vercel Web Analytics.
+                    </div>
+                  </div>
+                )}
               </div>
+
+              {/* execution CTA (only visible in pipeline tab) */}
+              {activeBentoTab === "pipeline" ? (
+                <div className="mt-4">
+                  <MagneticButton
+                    onClick={runPipelineDemo}
+                    className={`w-full py-4 rounded-xl font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 border transition ${
+                      isPipelineRunning 
+                        ? "bg-purple-950/20 border-purple-500/30 text-purple-400 cursor-not-allowed" 
+                        : "bg-purple-600 border-purple-500 text-white hover:bg-purple-700"
+                    }`}
+                  >
+                    {isPipelineRunning ? (
+                      <>Running Agent Graph...</>
+                    ) : (
+                      <>
+                        <BsPlayFill className="text-lg" /> Run Pipeline Ingest
+                      </>
+                    )}
+                  </MagneticButton>
+                </div>
+              ) : (
+                <div className="mt-4">
+                  <div className="w-full py-4 bg-blue-950/20 border border-blue-500/30 text-blue-400 rounded-xl font-bold text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 select-none font-mono">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                    Telemetry Stream Connected
+                  </div>
+                </div>
+              )}
 
             </div>
 
@@ -694,7 +818,10 @@ TOTAL CASH: $139.32
                   {(["All", "Languages", "Backend", "Frontend", "DevOps", "AI/ML"] as const).map((cat) => (
                     <button
                       key={cat}
-                      onClick={() => setSelectedSkillCategory(cat)}
+                      onClick={() => {
+                        setSelectedSkillCategory(cat);
+                        logTelemetry(`Competency category filtered: "${cat}"`);
+                      }}
                       className={`px-3.5 py-1.5 rounded-full text-xs font-mono tracking-wide border transition duration-300 ${
                         selectedSkillCategory === cat
                           ? "bg-blue-600 border-blue-500 text-white shadow-glow"
@@ -798,6 +925,7 @@ TOTAL CASH: $139.32
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-6">
             <a
               href="mailto:akshayreddychethireddy15@gmail.com"
+              onClick={() => logTelemetry("Outbound Action: Email link clicked (mailto)")}
               className="px-8 py-4 bg-white text-black font-bold rounded-xl flex items-center justify-center gap-2.5 hover:bg-gray-200 transition text-sm uppercase tracking-wider"
             >
               <HiMail className="text-lg" /> Send E-Mail
@@ -806,6 +934,7 @@ TOTAL CASH: $139.32
               href="https://www.linkedin.com/in/akshay-reddy-chethireddy/"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => logTelemetry("Outbound Action: LinkedIn profile link clicked")}
               className="px-8 py-4 border border-white/20 hover:bg-white/5 text-white font-bold rounded-xl flex items-center justify-center gap-2.5 transition text-sm uppercase tracking-wider bg-black/40"
             >
               <BsLinkedin className="text-base" /> LinkedIn Profile
