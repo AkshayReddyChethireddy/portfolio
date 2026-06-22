@@ -6,6 +6,7 @@ import bmsCloneImg from "@/public/bmsCloneImg.png";
 import skillSyncImg from "@/public/skillSyncImg.png";
 import repoAnalyzerImg from "@/public/repoAnalyzerImg.png";
 import mulaiImg from "@/public/mulaiImg.png";
+import patientAdvocateImg from "@/public/patientAdvocate.png";
 
 export const links = [
   { name: "Home", hash: "#home" },
@@ -52,6 +53,22 @@ export const experiencesData = [
 ] as const;
 
 export const projectsData = [
+  {
+    title: "The Patient Advocate",
+    description:
+      "An AI-powered medical bill auditing system designed to protect patients from excessive, upcoded charges. Integrates a custom HIPAA Shield interactive PII redactor in the frontend, runs OCR bill extraction, and executes a multi-stage LangGraph backend pipeline to audit CPT codes against official CMS schedules, flagging anomalies and generating customized dispute packages.",
+    tags: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "FastAPI",
+      "LangGraph",
+      "SQLAlchemy",
+      "SQLite",
+      "TailwindCSS",
+    ],
+    imageUrl: patientAdvocateImg,
+  },
   {
     title: "Mulai BI System",
     description:
