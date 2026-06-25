@@ -7,6 +7,7 @@ import skillSyncImg from "@/public/skillSyncImg.png";
 import repoAnalyzerImg from "@/public/repoAnalyzerImg.png";
 import mulaiImg from "@/public/mulaiImg.png";
 import patientAdvocateImg from "@/public/patientAdvocate.png";
+import aetherImg from "@/public/aetherImg.png";
 
 export const links = [
   { name: "Home", hash: "#home" },
@@ -53,6 +54,22 @@ export const experiencesData = [
 ] as const;
 
 export const projectsData = [
+  {
+    title: "Aether",
+    description:
+      "An open-source, production-ready AI platform for multi-agent orchestration, featuring sub-300ms streaming inference, persistent memory (Qdrant & Neo4j), and zero-hallucination architecture. Developed a robust backend with FastAPI and Python, paired with a Next.js frontend, deployed on Kubernetes.",
+    tags: [
+      "Python",
+      "Next.js",
+      "TypeScript",
+      "FastAPI",
+      "Docker",
+      "Kubernetes",
+      "Qdrant",
+      "Neo4j",
+    ],
+    imageUrl: aetherImg,
+  },
   {
     title: "The Patient Advocate",
     description:
