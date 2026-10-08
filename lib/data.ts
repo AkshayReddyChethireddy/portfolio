@@ -8,6 +8,10 @@ import repoAnalyzerImg from "@/public/repoAnalyzerImg.png";
 import mulaiImg from "@/public/mulaiImg.png";
 import patientAdvocateImg from "@/public/patientAdvocate.png";
 import aetherImg from "@/public/aetherImg.png";
+import chatpulseImg from "@/public/chatpulseImg.jpg";
+import fleetshieldImg from "@/public/fleetshieldImg.jpg";
+import qamonitorImg from "@/public/qamonitorImg.jpg";
+
 
 export const links = [
   { name: "Home", hash: "#home" },
@@ -54,6 +58,45 @@ export const experiencesData = [
 ] as const;
 
 export const projectsData = [
+  {
+    title: "ChatPulse",
+    description:
+      "Live Twitch chat analytics with one-click AI recaps for streamers. Connects to any public channel to detect hype spikes, viewer questions, and trending words. Includes a Go serverless backend utilizing Claude AI for generating instant stream summaries.",
+    tags: [
+      "React",
+      "TypeScript",
+      "Vite",
+      "Go",
+      "Vercel Serverless",
+      "Anthropic API",
+    ],
+    imageUrl: chatpulseImg,
+  },
+  {
+    title: "FleetShield",
+    description:
+      "A high-throughput endpoint telemetry ingestion engine designed to handle concurrent heartbeats from 10,000+ distributed agents. Built with a Zero-Trust Policy Engine to evaluate real-time compliance drift using concurrent dictionaries and in-memory bounded queues.",
+    tags: [
+      "C#",
+      ".NET 8",
+      "Minimal APIs",
+      "System.Threading.Channels",
+      "Zero-Trust",
+    ],
+    imageUrl: fleetshieldImg,
+  },
+  {
+    title: "QA Monitor Engine",
+    description:
+      "An automated cross-browser testing and monitoring suite designed for production environments. Features a robust Python testing runner backend coupled with a React frontend dashboard to continuously track cross-browser reliability and performance.",
+    tags: [
+      "Python",
+      "React",
+      "Playwright",
+      "Docker",
+    ],
+    imageUrl: qamonitorImg,
+  },
   {
     title: "Aether",
     description:
