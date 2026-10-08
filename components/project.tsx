@@ -72,20 +72,22 @@ export default function Project({
           </ul>
         </div>
 
-        <Image
-          src={imageUrl}
-          alt="Project preview"
-          quality={95}
-          className={`absolute hidden sm:block top-8 -right-40 w-[28.25rem] rounded-t-lg shadow-2xl transition
-            ${
-              isExpanded
-                ? "scale-100 translate-x-0 translate-y-0 rotate-0"
-                : "group-hover:scale-[1.04] group-hover:-translate-x-3 group-hover:translate-y-3 group-hover:-rotate-2"
-            }
+        {imageUrl && (
+          <Image
+            src={imageUrl}
+            alt="Project preview"
+            quality={95}
+            className={`absolute hidden sm:block top-8 -right-40 w-[28.25rem] rounded-t-lg shadow-2xl transition
+              ${
+                isExpanded
+                  ? "scale-100 translate-x-0 translate-y-0 rotate-0"
+                  : "group-hover:scale-[1.04] group-hover:-translate-x-3 group-hover:translate-y-3 group-hover:-rotate-2"
+              }
 
-            group-even:right-[initial]
-            group-even:-left-40`}
-        />
+              group-even:right-[initial]
+              group-even:-left-40`}
+          />
+        )}
       </motion.section>
     </motion.div>
   );

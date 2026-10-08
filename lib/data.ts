@@ -10,7 +10,6 @@ import patientAdvocateImg from "@/public/patientAdvocate.png";
 import aetherImg from "@/public/aetherImg.png";
 import chatpulseImg from "@/public/chatpulseImg.jpg";
 import fleetshieldImg from "@/public/fleetshieldImg.jpg";
-import qamonitorImg from "@/public/qamonitorImg.jpg";
 
 
 export const links = [
@@ -86,16 +85,15 @@ export const projectsData = [
     imageUrl: fleetshieldImg,
   },
   {
-    title: "QA Monitor Engine",
+    title: "QA Monitor Engine (WIP)",
     description:
-      "An automated cross-browser testing and monitoring suite designed for production environments. Features a robust Python testing runner backend coupled with a React frontend dashboard to continuously track cross-browser reliability and performance.",
+      "A work-in-progress cross-browser automation suite for production environments. The core ideology is to provide a zero-maintenance, highly reliable testing pipeline that continuously tracks UI health across all major browsers. Once completed, it will feature a scalable Python/Playwright test runner orchestrated by a central React dashboard.",
     tags: [
       "Python",
       "React",
       "Playwright",
       "Docker",
     ],
-    imageUrl: qamonitorImg,
   },
   {
     title: "Aether",
