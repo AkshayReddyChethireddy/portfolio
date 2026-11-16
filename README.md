@@ -1,54 +1,42 @@
-# Akshay Reddy Chethireddy — Developer Portfolio
+# Akshay Chethireddy - Software Engineering Portfolio
 
-A modern, responsive full-stack developer portfolio showcasing my projects, skills, and experience.  
-Built with a focus on clean UI, smooth animations, accessibility, and real-world engineering practices.
+Personal software engineering portfolio showcasing production backend microservices, concurrent storage engines, distributed AI architectures, and full-stack web systems.
 
-🌐 **Live Demo:** https://your-vercel-url.vercel.app  
-📄 **Resume:** Available on the site
+- **Live URL:** https://akshayreddych.vercel.app
+- **GitHub:** https://github.com/AkshayReddyChethireddy
+- **LinkedIn:** https://linkedin.com/in/akshayreddy15
+- **Resume:** Available at /CV.pdf
 
----
+## Featured Systems
 
-## 🚀 Tech Stack
+1. **StrataKV** (C++20, POSIX, WAL, Group Commit, Lock Sharding) - 2.65M ops/sec concurrent key-value storage engine with p99 latency < 1.6µs.
+2. **Aether** (Python 3.11, FastAPI, Next.js 14, Kubernetes, Qdrant, Neo4j) - 13-microservice AI platform with sub-300ms streaming TTFT and hybrid memory.
+3. **FleetShield** (C#, .NET 8, Minimal APIs, System.Threading.Channels) - Zero-Trust telemetry gateway ingesting 10,000+ edge agents with zero dropped packets.
+4. **ChatPulse** (React 18, TypeScript, Go 1.22, WebSockets) - Live Twitch chat analytics engine handling 500+ messages/sec burst streams without frame drops.
+5. **The Patient Advocate** (Next.js 16, React 19, FastAPI, LangGraph, PostgreSQL) - Medical bill auditing system with a deterministic CMS fee schedule truth layer.
+6. **GitHub Repository Analyzer** (FastAPI, Celery, Redis, ChromaDB, Jina AI) - Codebase intelligence engine with syntax AST parsing and conversational RAG.
+7. **Mulai BI System** (FastAPI, LangGraph, Gemini 1.5 Flash Vision, PostgreSQL) - Multi-agent commercial invoice ingestion and statistical outlier detection pipeline.
+8. **QA Monitor Engine** (Python 3.11, FastAPI, Playwright, React 19) - Tri-engine headless cross-browser performance tracing and regression suite.
+9. **SkillSync** (FastAPI, PostgreSQL, SQLAlchemy, React 18, Zustand) - Learning analytics platform with sub-10ms query resolution over indexed time-series tables.
 
-**Frontend**
-- React
-- Next.js (App Router)
-- TypeScript
-- Tailwind CSS
-- Framer Motion
+## Tech Stack
 
-**Backend / Server**
-- Next.js Server Actions
-- Resend (email delivery)
-- React Email
+- **Framework:** Next.js 13/14 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Animations:** Framer Motion
+- **Smooth Scroll:** Lenis
+- **Deployment:** Vercel
 
-**Tools & Platforms**
-- Git & GitHub
-- Vercel (deployment)
-- ESLint
-- PostCSS
+## Local Development
 
----
+```bash
+npm install
+npm run dev
+```
 
-## ✨ Features
+Build for production:
 
-- Fully responsive design (mobile → desktop)
-- Smooth section transitions and animations
-- Glass-style animated navbar
-- Dark / light mode toggle
-- Contact form with email delivery
-- Accessible, semantic UI
-- Optimized for performance and SEO
-
----
-
-## 📬 Contact Form
-
-The contact form uses **Next.js Server Actions** and **Resend** to send emails securely from the server.
-
-### Environment Variable Required
-
-Create a `.env.local` file (not committed):
-
-```env
-RESEND_API_KEY=your_resend_api_key_here
+```bash
+npm run build
+```

@@ -9,18 +9,22 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "-apple-system", "sans-serif"],
+        sans: ["var(--font-sans)", "Inter", "system-ui", "-apple-system", "sans-serif"],
         mono: ["var(--font-mono)", "JetBrains Mono", "Menlo", "Courier New", "monospace"],
       },
       colors: {
-        canvas: "#09090b",
-        surface: "#0f0f12",
-        "surface-subtle": "#141418",
-        border: "#27272a",
-        "border-muted": "#1e1e24",
+        canvas: "#FAFAFA",
+        surface: "#FFFFFF",
+        "surface-subtle": "#F8FAFC",
+        border: "#E2E8F0",
+        "border-hover": "#CBD5E1",
+        heading: "#0F172A",
+        body: "#334155",
+        muted: "#64748B",
+        accent: "#1D4ED8",
+        "accent-subtle": "#EFF6FF",
       },
     },
   },
   plugins: [],
-  darkMode: "class",
 };

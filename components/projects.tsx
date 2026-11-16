@@ -35,25 +35,23 @@ export default function Projects() {
     <section
       ref={ref}
       id="projects"
-      className="py-16 sm:py-24 max-w-5xl mx-auto px-4 sm:px-6 border-t border-zinc-900"
+      className="py-14 sm:py-20 max-w-5xl mx-auto px-4 sm:px-6 border-t border-slate-200"
     >
-      <div className="space-y-10">
-        {/* Section Header */}
+      <div className="space-y-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="space-y-2">
-            <div className="text-xs font-mono font-semibold uppercase tracking-widest text-blue-500">
-              Systems & Production Code
+          <div className="space-y-1.5">
+            <div className="text-xs font-mono font-semibold uppercase tracking-wider text-blue-700">
+              Technical Portfolio
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white font-sans">
-              Featured Engineering Projects
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 font-sans">
+              Featured Systems & Codebases
             </h2>
-            <p className="text-sm font-sans text-zinc-400 max-w-2xl">
-              Nine verified repositories spanning concurrent C++ storage engines, high-throughput .NET telemetry gateways, distributed Kubernetes agent platforms, and deterministic healthcare auditors.
+            <p className="text-sm font-sans text-slate-600 max-w-2xl">
+              Nine verified repositories spanning concurrent storage engines, high-throughput telemetry gateways, distributed agent platforms, and deterministic healthcare auditors.
             </p>
           </div>
 
-          {/* Category Filter Pills */}
-          <div className="flex flex-wrap gap-1.5 p-1 rounded-lg bg-[#0c0c0e] border border-zinc-900">
+          <div className="flex flex-wrap gap-1 p-1 rounded-lg bg-white border border-slate-200 shadow-sm">
             {categories.map((cat) => (
               <button
                 key={cat}
@@ -61,8 +59,8 @@ export default function Projects() {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-3 py-1.5 rounded-md text-xs font-mono transition ${
                   selectedCategory === cat
-                    ? "bg-zinc-800 text-white font-semibold"
-                    : "text-zinc-400 hover:text-zinc-200"
+                    ? "bg-slate-900 text-white font-medium"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
                 }`}
               >
                 {cat}
@@ -71,7 +69,6 @@ export default function Projects() {
           </div>
         </div>
 
-        {/* Project Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {filteredProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />

@@ -13,15 +13,15 @@ export default function SubmitBtn() {
       disabled={pending}
       className="
         inline-flex items-center justify-center gap-2 px-5 py-2.5
-        rounded-lg bg-zinc-100 text-zinc-950 font-mono text-xs font-semibold
-        hover:bg-white transition
+        rounded-lg bg-blue-700 text-white font-mono text-xs font-semibold
+        hover:bg-blue-800 transition shadow-sm
         disabled:opacity-50 disabled:cursor-not-allowed
       "
     >
       {pending ? (
         <span className="flex items-center gap-2">
-          <span className="w-3 h-3 border-2 border-zinc-950/30 border-t-zinc-950 rounded-full animate-spin" />
-          <span>Transmitting...</span>
+          <span className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+          <span>Sending...</span>
         </span>
       ) : (
         <>
