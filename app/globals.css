@@ -3,42 +3,44 @@
 @tailwind utilities;
 
 :root {
-  --background-hex: #000000;
-  --panel-hex: #0a0a0c;
-  --accent-blue: #0071e3; /* Apple cobalt blue */
-  --accent-purple: #8622ff; /* Elite purple */
-  --accent-teal: #38bdf8; /* Mulai cyan */
-  --text-primary: #f5f5f7; /* Apple white text */
-  --text-secondary: #86868b; /* Apple gray text */
-  --line-color: rgba(255, 255, 255, 0.08);
+  --canvas: #09090b;
+  --surface: #0f0f12;
+  --surface-hover: #141418;
+  --border: #27272a;
+  --border-subtle: #1e1e24;
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --accent: #3b82f6;
 }
 
 html, body {
-  background-color: var(--background-hex) !important;
+  background-color: var(--canvas) !important;
   color: var(--text-primary) !important;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow-x: hidden;
   margin: 0;
   padding: 0;
   scroll-behavior: auto !important; /* Managed by Lenis */
 }
 
-/* Custom Scrollbar */
+/* Subtle, restrained scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--background-hex);
+  background: #09090b;
 }
 ::-webkit-scrollbar-thumb {
-  background: #333336;
-  border-radius: 4px;
+  background: #27272a;
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #444449;
+  background: #3f3f46;
 }
 
-/* Hide Scrollbar helper */
+/* Utility to hide scrollbars where needed */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -47,7 +49,7 @@ html, body {
   scrollbar-width: none;
 }
 
-/* Lenis smooth scrolling requirement */
+/* Lenis smooth scrolling configuration */
 html.lenis, html.lenis body {
   height: auto;
 }
@@ -60,54 +62,33 @@ html.lenis, html.lenis body {
 .lenis-stopped {
   overflow: hidden;
 }
-.lenis-scrolling iframe {
-  pointer-events: none;
+
+/* Technical grid background pattern */
+.tech-grid {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
 }
 
-/* Glow effects & glassmorphism components */
-.apple-glass {
-  background: rgba(10, 10, 12, 0.75);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+/* Crisp 1px border container */
+.tech-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
-.apple-border {
-  border: 1px solid rgba(255, 255, 255, 0.08);
+.tech-card:hover {
+  background-color: var(--surface-hover);
+  border-color: #3f3f46;
 }
 
-/* 3D and floating micro-animations */
-@keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(0.5deg); }
+/* Monospace technical data styling */
+.font-mono-code {
+  font-family: var(--font-mono), "JetBrains Mono", Menlo, monospace;
 }
 
-.floating-layer-1 {
-  animation: float 6s ease-in-out infinite;
-}
-.floating-layer-2 {
-  animation: float 7s ease-in-out infinite 1s;
-}
-.floating-layer-3 {
-  animation: float 8s ease-in-out infinite 2s;
-}
-
-/* Text Masking & Apple Shimmer */
-.apple-text-gradient {
-  background: linear-gradient(135deg, #ffffff 30%, #86868b 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.cobalt-glow {
-  box-shadow: 0 0 40px rgba(0, 113, 227, 0.15);
-}
-
-.teal-glow {
-  box-shadow: 0 0 50px rgba(56, 189, 248, 0.2);
-}
-
-/* Border black override for standard elements */
-.borderBlack {
-  border: 1px solid rgba(255, 255, 255, 0.08);
+::selection {
+  background-color: #2563eb;
+  color: #ffffff;
 }

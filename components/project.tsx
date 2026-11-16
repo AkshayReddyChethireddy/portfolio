@@ -1,94 +1,166 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { projectsData } from "@/lib/data";
+import React, { useState } from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { ProjectItem } from "@/lib/data";
+import { FiGithub, FiExternalLink, FiChevronDown, FiChevronUp, FiCpu, FiLayers } from "react-icons/fi";
 
-type ProjectProps = (typeof projectsData)[number];
-
-export default function Project({
-  title,
-  description,
-  tags,
-  imageUrl,
-}: ProjectProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["0 1", "1.33 1"],
-  });
-
-  const scaleProgress = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
-  const opacityProgress = useTransform(scrollYProgress, [0, 1], [0.6, 1]);
+export default function ProjectCard({ project }: { project: ProjectItem }) {
+  const [showArchitectureDetails, setShowArchitectureDetails] = useState(false);
+  const [showImagePreview, setShowImagePreview] = useState(false);
 
   return (
-    <motion.div
-      ref={ref}
-      style={{
-        scale: scaleProgress,
-        opacity: opacityProgress,
-      }}
-      className="group mb-3 sm:mb-8 last:mb-0 cursor-pointer"
-      onClick={() => setIsExpanded((prev) => !prev)}
-    >
-      <motion.section
-        layout
-        transition={{ layout: { duration: 0.35, ease: "easeInOut" } }}
-        className="bg-gray-100 max-w-[42rem] border border-black/5 rounded-lg overflow-hidden sm:pr-8 relative hover:bg-gray-200 transition dark:text-white dark:bg-white/10 dark:hover:bg-white/20"
-      >
-        <div className="pt-4 pb-7 px-5 sm:pl-10 sm:pr-2 sm:pt-10 sm:max-w-[50%] flex flex-col h-full justify-between sm:group-even:ml-[18rem]">
-          <div>
-            <h3 className="text-2xl font-semibold">{title}</h3>
-
-            <motion.p
-              layout
-              transition={{ duration: 0.3 }}
-              className={`mt-2 leading-relaxed text-gray-700 dark:text-white/70 ${
-                isExpanded ? "" : "sm:line-clamp-4"
-              }`}
-            >
-              {description}
-            </motion.p>
-
-            {!isExpanded && (
-              <p className="mt-2 text-xs text-gray-500 dark:text-white/50">
-                Click to expand
-              </p>
-            )}
+    <article className="rounded-xl bg-[#0c0c0e] border border-zinc-900 hover:border-zinc-800 transition duration-200 overflow-hidden flex flex-col justify-between">
+      <div className="p-6 space-y-5">
+        {/* Top Meta Bar */}
+        <div className="flex items-center justify-between gap-3 border-b border-zinc-900 pb-3">
+          <div className="flex items-center gap-2">
+            <span className="px-2.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-[11px] font-mono text-zinc-300 font-medium">
+              {project.badge}
+            </span>
           </div>
 
-          <ul className="flex flex-wrap gap-2 pt-4">
-            {tags.map((tag, index) => (
-              <li
-                key={index}
-                className="bg-black/[0.7] px-3 py-1 text-[0.7rem] uppercase tracking-wider text-white rounded-full dark:text-white/70"
-              >
-                {tag}
-              </li>
-            ))}
-          </ul>
+          {/* Featured Metric Badge */}
+          <div className="text-right">
+            <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-950/30 border border-emerald-800/40 px-2 py-0.5 rounded">
+              {project.featuredMetric.value}
+            </span>
+            <span className="block text-[10px] font-mono text-zinc-500 mt-0.5">
+              {project.featuredMetric.label}
+            </span>
+          </div>
         </div>
 
-        {imageUrl && (
-          <Image
-            src={imageUrl}
-            alt="Project preview"
-            quality={95}
-            className={`absolute hidden sm:block top-8 -right-40 w-[28.25rem] rounded-t-lg shadow-2xl transition
-              ${
-                isExpanded
-                  ? "scale-100 translate-x-0 translate-y-0 rotate-0"
-                  : "group-hover:scale-[1.04] group-hover:-translate-x-3 group-hover:translate-y-3 group-hover:-rotate-2"
-              }
+        {/* Title & One-line Summary */}
+        <div className="space-y-1.5">
+          <h3 className="text-xl font-bold text-white font-sans tracking-tight">
+            {project.title}
+          </h3>
+          <p className="text-xs sm:text-sm text-zinc-300 font-sans leading-relaxed">
+            {project.summary}
+          </p>
+        </div>
 
-              group-even:right-[initial]
-              group-even:-left-40`}
-          />
+        {/* Benchmarks / Measurable Results */}
+        <div className="space-y-2 pt-1">
+          <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-400 font-semibold flex items-center gap-1.5">
+            <FiCpu className="w-3.5 h-3.5 text-blue-400" />
+            <span>Verified Benchmarks & Impact</span>
+          </div>
+          <div className="grid grid-cols-1 gap-1.5 bg-[#08080a] p-3 rounded-lg border border-zinc-900">
+            {project.benchmarks.map((bench, idx) => (
+              <div
+                key={idx}
+                className="text-xs font-mono text-zinc-300 flex items-start gap-2 leading-relaxed"
+              >
+                <span className="text-emerald-500 font-bold shrink-0">&gt;</span>
+                <span>{bench}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Problem & Under the Hood Architecture Toggle */}
+        <div className="pt-1">
+          <button
+            type="button"
+            onClick={() => setShowArchitectureDetails((prev) => !prev)}
+            className="w-full flex items-center justify-between py-2 text-xs font-mono text-zinc-400 hover:text-white transition border-t border-zinc-900"
+          >
+            <span className="flex items-center gap-1.5">
+              <FiLayers className="w-3.5 h-3.5 text-blue-400" />
+              <span>System Architecture & Trade-offs</span>
+            </span>
+            {showArchitectureDetails ? (
+              <FiChevronUp className="w-3.5 h-3.5 text-zinc-500" />
+            ) : (
+              <FiChevronDown className="w-3.5 h-3.5 text-zinc-500" />
+            )}
+          </button>
+
+          {showArchitectureDetails && (
+            <div className="mt-3 space-y-3 p-3.5 rounded-lg bg-zinc-900/40 border border-zinc-800 text-xs font-sans text-zinc-300 leading-relaxed">
+              <div>
+                <span className="font-mono text-[11px] font-bold text-zinc-400 uppercase tracking-wide block mb-1">
+                  Problem Solved:
+                </span>
+                <p className="text-zinc-400">{project.problem}</p>
+              </div>
+              <div className="pt-2 border-t border-zinc-800/60">
+                <span className="font-mono text-[11px] font-bold text-zinc-400 uppercase tracking-wide block mb-1">
+                  Under the Hood Implementation:
+                </span>
+                <p className="text-zinc-300">{project.architecture}</p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Image Preview Toggle if image is available */}
+        {project.imageUrl && (
+          <div>
+            <button
+              type="button"
+              onClick={() => setShowImagePreview((prev) => !prev)}
+              className="text-[11px] font-mono text-zinc-400 hover:text-zinc-300 underline underline-offset-2 transition"
+            >
+              {showImagePreview ? "Hide visual snapshot" : "View system visual snapshot"}
+            </button>
+            {showImagePreview && (
+              <div className="mt-2 rounded-lg overflow-hidden border border-zinc-800 bg-black">
+                <Image
+                  src={project.imageUrl}
+                  alt={`${project.title} screenshot`}
+                  width={720}
+                  height={400}
+                  className="w-full h-auto object-cover opacity-90 hover:opacity-100 transition"
+                />
+              </div>
+            )}
+          </div>
         )}
-      </motion.section>
-    </motion.div>
+
+        {/* Tech Stack Tags */}
+        <div className="flex flex-wrap gap-1.5 pt-2 border-t border-zinc-900">
+          {project.tags.map((tag, tIdx) => (
+            <span
+              key={tIdx}
+              className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800/80 text-[10px] font-mono text-zinc-400"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Action Links Bar */}
+      <div className="p-4 bg-[#0a0a0c] border-t border-zinc-900 flex items-center justify-between gap-3">
+        <a
+          href={project.githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-200 hover:text-white font-mono text-xs font-medium transition"
+        >
+          <FiGithub className="w-3.5 h-3.5" />
+          <span>Repository</span>
+        </a>
+
+        {project.liveUrl ? (
+          <a
+            href={project.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs font-semibold transition"
+          >
+            <span>Live Demo</span>
+            <FiExternalLink className="w-3.5 h-3.5" />
+          </a>
+        ) : (
+          <span className="text-[11px] font-mono text-zinc-400">
+            Source Verified
+          </span>
+        )}
+      </div>
+    </article>
   );
 }

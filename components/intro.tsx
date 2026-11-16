@@ -1,105 +1,149 @@
 "use client";
 
-import Image from "next/image";
+import React from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
-import { BsArrowRight, BsLinkedin } from "react-icons/bs";
-import { HiOutlineDownload } from "react-icons/hi";
-import { FaGithub } from "react-icons/fa";
+import { personalInfo } from "@/lib/data";
 import { useSectionInView } from "@/lib/hooks";
 import { useActiveSectionContext } from "@/context/active-section-context";
+import { FiGithub, FiLinkedin, FiMail, FiDownload, FiArrowRight } from "react-icons/fi";
 
 export default function Intro() {
-  const { ref } = useSectionInView("Home", 0.6);
+  const { ref } = useSectionInView("Overview", 0.3);
   const { setActiveSection, setTimeOfLastClick } = useActiveSectionContext();
 
   return (
     <section
       ref={ref}
-      id="home"
-      className="mx-auto max-w-3xl scroll-mt-24 pt-20 text-center"
+      id="overview"
+      className="relative pt-28 pb-16 sm:pt-36 sm:pb-20 max-w-5xl mx-auto px-4 sm:px-6"
     >
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="relative mx-auto mb-8 w-fit"
-      >
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 blur-md opacity-60" />
-
+      <div className="space-y-8">
+        {/* Status Pill */}
         <motion.div
-          whileHover={{ y: -4 }}
-          transition={{ type: "spring", stiffness: 180 }}
-          className="relative rounded-2xl bg-white/80 p-1 shadow-xl backdrop-blur-md dark:bg-white/10"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-xs font-mono text-zinc-300"
         >
-          <Image
-            src="/akshay.png"
-            alt="Akshay portrait"
-            width={110}
-            height={110}
-            priority
-            className="rounded-xl object-cover"
-          />
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span>Available for Software Engineering Roles</span>
+          <span className="text-zinc-600">|</span>
+          <span className="text-zinc-400">Lowell, MA &middot; Relocating / Remote</span>
         </motion.div>
-      </motion.div>
 
+        {/* Headline */}
+        <div className="space-y-3">
+          <motion.h1
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.05 }}
+            className="text-4xl sm:text-6xl font-bold tracking-tight text-white font-sans"
+          >
+            Akshay Chethireddy
+          </motion.h1>
 
-      <motion.h1
-        initial={{ opacity: 0, y: 60 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.35 }}
-        className="mb-8 px-4 text-xl font-medium leading-relaxed sm:text-2xl"
-      >
-        <span className="font-bold">Hi, I&apos;m Akshay.</span> A{" "}
-        <span className="font-semibold">full-stack developer</span> who enjoys
-        building <span className="italic">real-world applications</span>. I work
-        across the stack with a focus on{" "}
-        <span className="underline">React, Node.js, and SQL</span>.
-      </motion.h1>
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="text-xl sm:text-2xl font-mono text-zinc-400 tracking-tight"
+          >
+            Distributed Systems <span className="text-zinc-600">&middot;</span> Payment Microservices <span className="text-zinc-600">&middot;</span> Production AI
+          </motion.div>
+        </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 60 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15 }}
-        className="flex flex-wrap items-center justify-center gap-3 px-4 text-base"
-      >
-        <Link
-          href="#contact"
-          onClick={() => {
-            setActiveSection("Contact");
-            setTimeOfLastClick(Date.now());
-          }}
-          className="group flex items-center gap-2 rounded-full bg-black px-6 py-3 text-white transition hover:scale-105 hover:bg-neutral-900"
+        {/* 2-Sentence Production Summary */}
+        <motion.p
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.15 }}
+          className="max-w-3xl text-base sm:text-lg leading-relaxed text-zinc-300 font-sans font-normal"
         >
-          Get in touch
-          <BsArrowRight className="transition group-hover:translate-x-1" />
-        </Link>
+          {personalInfo.summary}
+        </motion.p>
 
-        <a
-          href="/CV.pdf"
-          download
-          className="group flex items-center gap-2 rounded-full border border-black/10 bg-white px-6 py-3 transition hover:scale-105 dark:bg-white/10"
+        {/* Direct Action Links */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className="flex flex-wrap items-center gap-3 pt-2"
         >
-          Resume
-          <HiOutlineDownload className="transition group-hover:translate-y-1" />
-        </a>
+          <a
+            href={personalInfo.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-zinc-100 text-zinc-950 font-mono text-xs font-semibold hover:bg-white transition"
+          >
+            <FiGithub className="w-4 h-4" />
+            <span>GitHub</span>
+          </a>
 
-        <a
-          href="https://www.linkedin.com/in/akshayreddy15/"
-          target="_blank"
-          className="rounded-full border border-black/10 bg-white p-3 text-xl transition hover:scale-110 hover:text-black dark:bg-white/10"
-        >
-          <BsLinkedin />
-        </a>
+          <a
+            href={personalInfo.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-200 font-mono text-xs font-medium hover:bg-zinc-800 hover:text-white transition"
+          >
+            <FiLinkedin className="w-4 h-4" />
+            <span>LinkedIn</span>
+          </a>
 
-        <a
-          href="https://github.com/AkshayReddyChethireddy"
-          target="_blank"
-          className="rounded-full border border-black/10 bg-white p-3 text-xl transition hover:scale-110 hover:text-black dark:bg-white/10"
+          <a
+            href={`mailto:${personalInfo.email}`}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-200 font-mono text-xs font-medium hover:bg-zinc-800 hover:text-white transition"
+          >
+            <FiMail className="w-4 h-4" />
+            <span>{personalInfo.email}</span>
+          </a>
+
+          <a
+            href={personalInfo.resumePath}
+            download
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-200 font-mono text-xs font-medium hover:bg-zinc-800 hover:text-white transition"
+          >
+            <FiDownload className="w-4 h-4" />
+            <span>Resume (PDF)</span>
+          </a>
+
+          <a
+            href="#projects"
+            onClick={() => {
+              setActiveSection("Projects");
+              setTimeOfLastClick(Date.now());
+            }}
+            className="inline-flex items-center gap-1.5 px-3 py-2.5 text-zinc-400 hover:text-white font-mono text-xs transition ml-1"
+          >
+            <span>View Architecture</span>
+            <FiArrowRight className="w-3.5 h-3.5" />
+          </a>
+        </motion.div>
+
+        {/* Benchmarks / Metrics Grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.25 }}
+          className="pt-6 grid grid-cols-2 md:grid-cols-4 gap-3 border-t border-zinc-900"
         >
-          <FaGithub />
-        </a>
-      </motion.div>
+          {personalInfo.metrics.map((metric, idx) => (
+            <div
+              key={idx}
+              className="p-3.5 rounded-lg bg-[#0c0c0e] border border-zinc-900 space-y-1"
+            >
+              <div className="text-xl sm:text-2xl font-mono font-bold text-white tracking-tight">
+                {metric.value}
+              </div>
+              <div className="text-[11px] font-mono text-zinc-400 font-medium">
+                {metric.label}
+              </div>
+              <div className="text-[10px] text-zinc-500 font-sans leading-tight">
+                {metric.detail}
+              </div>
+            </div>
+          ))}
+        </motion.div>
+      </div>
     </section>
   );
 }

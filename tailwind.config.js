@@ -4,13 +4,20 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./lib/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      fontFamily: {
+        sans: ["var(--font-sans)", "system-ui", "-apple-system", "sans-serif"],
+        mono: ["var(--font-mono)", "JetBrains Mono", "Menlo", "Courier New", "monospace"],
+      },
+      colors: {
+        canvas: "#09090b",
+        surface: "#0f0f12",
+        "surface-subtle": "#141418",
+        border: "#27272a",
+        "border-muted": "#1e1e24",
       },
     },
   },

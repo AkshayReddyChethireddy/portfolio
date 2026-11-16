@@ -1,19 +1,42 @@
 import Header from "@/components/header";
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import ActiveSectionContextProvider from "@/context/active-section-context";
 import Footer from "@/components/footer";
-import ThemeSwitch from "@/components/theme-switch";
 import ThemeContextProvider from "@/context/theme-context";
 import LenisProvider from "@/components/lenis-provider";
 import { Toaster } from "react-hot-toast";
 import { Analytics } from "@vercel/analytics/react";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata = {
-  title: "Akshay Reddy | Full-Stack AI Engineer Portfolio",
-  description: "Elite portfolio showcasing autonomous multi-agent systems, heavy-duty backend engineering, and luxury UI experiences.",
+  title: "Akshay Chethireddy | Software Engineer · Distributed Systems & Production AI",
+  description:
+    "Software engineer with 2.5 years experience building Java/Spring Boot payment microservices, C++ concurrent storage engines, and deterministic multi-agent LLM systems. Scaled payment APIs to 1,200+ rps.",
+  keywords: [
+    "Akshay Chethireddy",
+    "Software Engineer",
+    "Distributed Systems",
+    "Spring Boot",
+    "C++20",
+    "FastAPI",
+    "LangGraph",
+    "Microservices",
+    "Kafka",
+    "UMass Lowell",
+  ],
+  authors: [{ name: "Akshay Chethireddy" }],
 };
 
 export default function RootLayout({
@@ -22,23 +45,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark !scroll-smooth">
-      <body
-        className={`${inter.className} bg-black text-white relative pt-20 overflow-x-hidden no-scrollbar`}
-      >
-        {/* Subtle, premium metallic backdrop glows */}
-        <div className="bg-[#0f172a] absolute top-[-6rem] -z-10 right-[11rem] h-[31.25rem] w-[31.25rem] rounded-full blur-[12rem]"></div>
-        <div className="bg-[#1e1b4b] absolute top-[-1rem] -z-10 left-[-35rem] h-[31.25rem] w-[50rem] rounded-full blur-[12rem] md:left-[-33rem] lg:left-[-28rem] xl:left-[-15rem] 2xl:left-[-5rem]"></div>
-
+    <html lang="en" className={`dark ${inter.variable} ${jetbrainsMono.variable} !scroll-smooth`}>
+      <body className="bg-[#09090b] text-[#fafafa] relative min-h-screen font-sans selection:bg-blue-600 selection:text-white antialiased">
         <ThemeContextProvider>
           <ActiveSectionContextProvider>
             <LenisProvider>
-              <Header />
-              <main className="min-h-screen">
-                {children}
-              </main>
-              <Footer />
-              <Toaster position="top-right" />
+              <div className="relative flex flex-col min-h-screen">
+                <Header />
+                <main className="flex-grow">{children}</main>
+                <Footer />
+              </div>
+              <Toaster
+                position="bottom-right"
+                toastOptions={{
+                  style: {
+                    background: "#0f0f12",
+                    color: "#fafafa",
+                    border: "1px solid #27272a",
+                    fontSize: "0.875rem",
+                    fontFamily: "var(--font-mono)",
+                  },
+                }}
+              />
               <Analytics />
             </LenisProvider>
           </ActiveSectionContextProvider>

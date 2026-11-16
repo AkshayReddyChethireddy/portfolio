@@ -2,99 +2,95 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import SectionHeading from "./section-heading";
 import { experiencesData } from "@/lib/data";
 import { useSectionInView } from "@/lib/hooks";
-import { useTheme } from "@/context/theme-context";
+import { FiBriefcase, FiCheckCircle } from "react-icons/fi";
 
 export default function Experience() {
-  const { ref } = useSectionInView("Experience");
-  const { theme } = useTheme();
+  const { ref } = useSectionInView("Experience", 0.2);
 
   return (
     <section
-      id="experience"
       ref={ref}
-      className="mb-28 scroll-mt-28 px-4 sm:mb-40"
+      id="experience"
+      className="py-16 sm:py-24 max-w-5xl mx-auto px-4 sm:px-6 border-t border-zinc-900"
     >
-      <SectionHeading>My experience</SectionHeading>
+      <div className="space-y-12">
+        {/* Section Header */}
+        <div className="space-y-2">
+          <div className="text-xs font-mono font-semibold uppercase tracking-widest text-blue-500">
+            Career & Engineering History
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white font-sans">
+            Production Experience
+          </h2>
+          <p className="text-sm font-sans text-zinc-400 max-w-2xl">
+            Track record designing high-availability payment systems, distributed microservices, and enterprise AI workflows.
+          </p>
+        </div>
 
-      <div className="relative mx-auto max-w-4xl">
-        {/* Vertical line */}
-        <div
-          className="
-            absolute left-4 top-0 h-full w-[2px]
-            bg-gray-300 dark:bg-gray-700
-            sm:left-1/2 sm:-translate-x-1/2
-          "
-        />
+        {/* Experience Timeline */}
+        <div className="relative border-l border-zinc-800 ml-2 sm:ml-4 pl-6 sm:pl-8 space-y-12">
+          {experiencesData.map((item, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: idx * 0.1 }}
+              className="relative group"
+            >
+              {/* Timeline marker */}
+              <div className="absolute -left-[31px] sm:-left-[39px] top-1 w-3.5 h-3.5 rounded-full bg-[#09090b] border-2 border-zinc-600 group-hover:border-blue-500 transition-colors" />
 
-        <ul className="flex flex-col gap-16">
-          {experiencesData.map((item, index) => {
-            const isLeft = index % 2 === 0;
-
-            return (
-              <motion.li
-                key={index}
-                initial={{ opacity: 0, y: 60 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.5,
-                  delay: index * 0.05,
-                  ease: "easeOut",
-                }}
-                viewport={{ once: true }}
-                className={`
-                  relative flex flex-col gap-4
-                  sm:w-1/2
-                  ${isLeft ? "sm:pr-12 sm:self-start" : "sm:pl-12 sm:self-end"}
-                `}
-              >
-                {/* Dot */}
-                <span
-                  className="
-                    absolute left-3 top-2 h-4 w-4 rounded-full
-                    bg-gray-900 dark:bg-white
-                    sm:left-1/2 sm:-translate-x-1/2
-                  "
-                />
-
-                {/* Card */}
-                <motion.div
-                  whileHover={{ y: -4 }}
-                  className="
-                    rounded-2xl
-                    bg-white/70 backdrop-blur-md
-                    border border-black/10
-                    p-6
-                    shadow-lg
-                    transition
-                    dark:bg-neutral-900/60 dark:border-white/10
-                  "
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-xl">{item.icon}</span>
-                    <h3 className="text-base font-semibold text-gray-900 dark:text-white">
-                      {item.title}
+              <div className="p-6 rounded-xl bg-[#0c0c0e] border border-zinc-900 hover:border-zinc-800 transition space-y-4">
+                {/* Header row */}
+                <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b border-zinc-900/80 pb-4">
+                  <div>
+                    <h3 className="text-lg font-bold text-white font-sans flex items-center gap-2">
+                      <span>{item.role}</span>
+                      <span className="text-zinc-600 font-normal">/</span>
+                      <span className="text-zinc-300 font-medium">{item.company}</span>
                     </h3>
+                    <div className="text-xs font-mono text-zinc-400 mt-1">
+                      {item.headline}
+                    </div>
                   </div>
+                  <div className="flex items-center gap-2 text-xs font-mono text-zinc-400 shrink-0">
+                    <span className="px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800">
+                      {item.period}
+                    </span>
+                  </div>
+                </div>
 
-                  <p className="mt-1 text-sm font-medium text-gray-500 dark:text-gray-400">
-                    {item.location}
-                  </p>
+                {/* Bullets */}
+                <ul className="space-y-2.5">
+                  {item.bullets.map((bullet, bIdx) => (
+                    <li
+                      key={bIdx}
+                      className="text-xs sm:text-sm text-zinc-300 font-sans leading-relaxed flex items-start gap-2.5"
+                    >
+                      <FiCheckCircle className="w-4 h-4 text-emerald-500/80 shrink-0 mt-0.5" />
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
 
-                  <p className="mt-3 text-sm leading-relaxed text-gray-700 dark:text-white/75">
-                    {item.description}
-                  </p>
-
-                  <span className="mt-4 inline-block text-xs font-medium text-gray-400 dark:text-gray-500">
-                    {item.date}
-                  </span>
-                </motion.div>
-              </motion.li>
-            );
-          })}
-        </ul>
+                {/* Technology tags */}
+                <div className="pt-2 flex flex-wrap gap-1.5 border-t border-zinc-900/80">
+                  {item.tech.map((t, tIdx) => (
+                    <span
+                      key={tIdx}
+                      className="px-2 py-0.5 rounded bg-zinc-900/60 border border-zinc-800/80 text-[11px] font-mono text-zinc-400"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );
